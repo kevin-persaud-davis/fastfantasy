@@ -1,0 +1,1 @@
+from fastfantasy import fastfantasy
