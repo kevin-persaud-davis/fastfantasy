@@ -76,7 +76,7 @@ class EspnSeasonSchedule():
         self.season_urls = []
 
     def get_season_urls(self):
-        pass
+        return self.season_urls
 
     def set_season_urls(self):
         if self.end is not None:
