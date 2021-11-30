@@ -61,6 +61,33 @@ class EspnTournament():
     def set_season_id(self):
         pass
 
+
+class EspnSeasonSchedule():
+
+    b_url = "https://www.espn.com/golf/schedule/_/season/"
+
+    def __init__(self, start_season, end_season=None) -> None:
+        if end_season is not None:
+            self.end = end_season
+        else:
+            self.end = None
+
+        self.start = start_season
+
+    def get_season_urls(self):
+        pass
+
+    def set_season_urls(self):
+        pass
+
+    def get_season_schedule(self):
+        pass
+    
+    def set_season_schedule(self):
+        pass
+
+
+
 def main():
     pass
 
