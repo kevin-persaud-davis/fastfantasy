@@ -80,11 +80,11 @@ class EspnSeasonSchedule():
 
     def set_season_urls(self):
         if self.end is not None:
-            season_urls = [self.b_url + str(season) 
+            self.season_urls = [self.b_url + str(season) 
                             for season in range(self.start, self.end+1)]
         else:
-            season_urls = [f"{self.b_url}{self.start}"]
-            
+            self.season_urls = [f"{self.b_url}{self.start}"]
+
     def get_season_schedule(self):
         pass
     
