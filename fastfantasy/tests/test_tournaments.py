@@ -12,3 +12,14 @@ def test_season_urls():
     actual = espn_ss.get_season_urls()
 
     assert actual == expected
+
+def test_season_urls_start():
+    """Test season urls for only start season"""
+    expected = ['https://www.espn.com/golf/schedule/_/season/2017']
+
+    espn_ss = EspnSeasonSchedule(2017)
+    espn_ss.set_season_urls()
+
+    actual = espn_ss.get_season_urls()
+
+    assert actual == expected
