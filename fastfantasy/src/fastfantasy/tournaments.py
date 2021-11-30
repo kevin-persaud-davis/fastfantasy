@@ -73,6 +73,7 @@ class EspnSeasonSchedule():
             self.end = None
 
         self.start = start_season
+        self.season_urls = []
 
     def get_season_urls(self):
         pass
