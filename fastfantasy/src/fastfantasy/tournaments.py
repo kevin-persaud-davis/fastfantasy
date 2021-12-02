@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from time import strptime
 
 def tournament_information(url, s_id):
     
@@ -59,24 +60,45 @@ class EspnTournament():
     
     def set_date(self, tourn_meta):
         tourn_date = tourn_meta.find("span").text
-        t_date = date_parser(tourn_date)
+        t_date = self.date_parser(tourn_date)
         self.tournament_info["tournament_date"] = t_date
 
     def date_parser(self, date):
 
         year = date[date.rfind(" ")+1:]
 
-        month_and_day = parse_espn_dates(date, "-")
+        month_and_day = self.parse_espn_dates(date, "-")
         
-        day = parse_espn_dates(month_and_day, " ", b_identifier=False)
+        day = self.parse_espn_dates(month_and_day, " ", b_identifier=False)
         day = day.lstrip()
         
-        month = parse_espn_dates(month_and_day, " ", b_identifier=True)
+        month = self.parse_espn_dates(month_and_day, " ", b_identifier=True)
         month_abr = month[:3]
         month_number = strptime(month_abr, "%b").tm_mon
         
         date_str = str(month_number) + "/" + day + "/" + year
         return date_str
+
+    def parse_espn_dates(date, identifier, b_identifier=True):
+    
+        if b_identifier:
+            if date.find(identifier) != -1:
+                b_idx = date.find(identifier)
+                # Should return month
+                n_date = date[:b_idx].rstrip()
+                return n_date
+            else:
+                # special case of only one date in link
+                b_idx = date.find(",")
+                n_date = date[:b_idx]
+                return n_date
+        else:
+            if date.find(identifier) != -1:
+                a_idx = date.find(identifier)
+                # Should return day
+                return date[a_idx: ]
+            else:
+                print("Did not find identifier in string for: ", date)
 
     def get_purse(self):
         pass
