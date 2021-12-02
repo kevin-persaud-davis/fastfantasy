@@ -55,10 +55,12 @@ class EspnTournament():
         self.tournament_info["tournament_name"] = tourn_name
 
     def get_date(self):
-        pass
+        return self.tournament_info["tournament_date"]
     
-    def set_date(self):
-        pass
+    def set_date(self, tourn_meta):
+        tourn_date = tourn_meta.find("span").text
+        t_date = date_parser(tourn_date)
+        self.tournament_info["tournament_date"] = t_date
 
     def get_purse(self):
         pass
