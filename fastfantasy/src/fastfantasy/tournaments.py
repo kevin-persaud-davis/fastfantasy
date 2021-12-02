@@ -101,7 +101,7 @@ class EspnTournament():
                 print("Did not find identifier in string for: ", date)
 
     def get_tournament_purse(self):
-        return self.tournament_info["purse"]
+        return self.tournament_info["tournament_purse"]
 
     def set_tournament_purse(self, tourn_header):
         
@@ -112,7 +112,7 @@ class EspnTournament():
         purse = purse_class[purse_start:purse_end]
         purse = purse.replace(",", "")
 
-        self.tournament_info["purse"] = purse
+        self.tournament_info["tournament_purse"] = purse
 
     def get_winning_score(self):
         pass
