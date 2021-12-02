@@ -29,13 +29,23 @@ class EspnTournament():
         # self.winner_name = ""
         # self.winner_id = ""
         # self.season_id = ""
-        self.tournament_info = {}
+        self.tournament_info = {
+            "tournament_id":"",
+            "tournament_name":"",
+            "date":"",
+            "purse":"",
+            "winning_score":"",
+            "winner_name":"",
+            "winner_id":"",
+            "season_id":"",
+        }
 
     def get_tournament_id(self):
-        pass
+        return self.tournament_info["tournament_id"]
     
-    def set_tournament_id(self):
-        pass
+    def set_tournament_id(self, url):
+        t_id = url[url.rfind("=") + 1:]
+        self.tournament_info["tournament_id"] = t_id
 
     def get_tournament_name(self):
         pass
