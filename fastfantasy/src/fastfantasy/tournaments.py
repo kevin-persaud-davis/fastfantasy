@@ -1,17 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 
+def tournament_information(url, s_id):
+    
+    tourn_info = {}
+
+    with requests.Session() as session:
+
+        page = session.get(url)
+
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.content, "lxml")
+
+            header = soup.find("div", class_="Leaderboard__Header")
+
+            mt4 = header.find_all("div", class_="mt4")
+            tourn_meta = mt4[-1]
+
+
 class EspnTournament():
 
     def __init__(self) -> None:
-        self.tournament_id = ""
-        self.tournament_name = ""
-        self.date = ""
-        self.purse = ""
-        self.winning_score = ""
-        self.winner_name = ""
-        self.winner_id = ""
-        self.season_id = ""
+        # self.tournament_id = ""
+        # self.tournament_name = ""
+        # self.date = ""
+        # self.purse = ""
+        # self.winning_score = ""
+        # self.winner_name = ""
+        # self.winner_id = ""
+        # self.season_id = ""
+        self.tournament_info = {}
 
     def get_tournament_id(self):
         pass
@@ -120,7 +138,7 @@ class EspnSeasonSchedule():
                     return tournament_data
             else:
                 page.raise_for_status()
-                
+
     def set_season_schedule(self):
         # iterate through season urls
 
