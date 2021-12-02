@@ -34,7 +34,7 @@ class EspnTournament():
             "tournament_id":"",
             "tournament_name":"",
             "date":"",
-            "purse":"",
+            "tournament_purse":"",
             "winning_score":"",
             "winner_name":"",
             "winner_id":"",
@@ -100,10 +100,10 @@ class EspnTournament():
             else:
                 print("Did not find identifier in string for: ", date)
 
-    def get_purse(self):
+    def get_tournament_purse(self):
         return self.tournament_info["purse"]
 
-    def set_purse(self, tourn_header):
+    def set_tournament_purse(self, tourn_header):
         
         purse_class = tourn_header.find("div", class_="n7 clr-gray-04").text
         # string find method
