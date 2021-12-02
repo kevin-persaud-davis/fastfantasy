@@ -62,6 +62,22 @@ class EspnTournament():
         t_date = date_parser(tourn_date)
         self.tournament_info["tournament_date"] = t_date
 
+    def date_parser(self, date):
+
+        year = date[date.rfind(" ")+1:]
+
+        month_and_day = parse_espn_dates(date, "-")
+        
+        day = parse_espn_dates(month_and_day, " ", b_identifier=False)
+        day = day.lstrip()
+        
+        month = parse_espn_dates(month_and_day, " ", b_identifier=True)
+        month_abr = month[:3]
+        month_number = strptime(month_abr, "%b").tm_mon
+        
+        date_str = str(month_number) + "/" + day + "/" + year
+        return date_str
+
     def get_purse(self):
         pass
 
