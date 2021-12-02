@@ -88,6 +88,9 @@ class EspnSeasonSchedule():
     def get_season_schedule(self):
         pass
 
+    def find_schedule(self, season_url):
+        pass
+
     def set_season_schedule(self):
         # iterate through season urls
 
