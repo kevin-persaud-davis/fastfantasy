@@ -87,14 +87,24 @@ class EspnSeasonSchedule():
 
     def get_season_schedule(self):
         pass
-    
+
     def set_season_schedule(self):
-        pass
+        # iterate through season urls
+
+        # number of season urls {0, 1, N}
+        tournament_data = []
+        if self.season_urls is not None:
+            for url in self.season_urls:
+                pass
 
 
 
 def main():
-    pass
+    espn_ss = EspnSeasonSchedule(2017)
+    espn_ss.set_season_urls()
+
+    actual = espn_ss.get_season_urls()
+    print(actual)
 
 if __name__ == "__main__":
     
