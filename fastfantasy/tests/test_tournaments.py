@@ -1,4 +1,5 @@
 from fastfantasy.tournaments import EspnSeasonSchedule
+from fastfantasy.tournament import EspnTournament
 
 def test_season_urls():
     """Test season urls from given season inputs (start and end)"""
@@ -21,5 +22,17 @@ def test_season_urls_start():
     espn_ss.set_season_urls()
 
     actual = espn_ss.get_season_urls()
+
+    assert actual == expected
+
+def test_espn_tournament_id():
+    """Test espn tournament id"""
+    tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+    expected = "3802"
+
+    espn_t = EspnTournament()
+    
+    t_id = espn_t.set_tournament_id(tournament_url)
+    actual = espn_t.get_tournament_id()
 
     assert actual == expected
