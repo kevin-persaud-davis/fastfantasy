@@ -11,7 +11,7 @@ class EspnTournament():
             "tournament_name":"",
             "date":"",
             "tournament_purse":"",
-            "winning_score":"",
+            "win_total":"",
             "winner_name":"",
             "winner_id":"",
             "season_id":"",
@@ -105,6 +105,34 @@ class EspnTournament():
 
         self.tournament_info["tournament_purse"] = purse
 
+    def get_winning_score(self):
+        return self.tournament_info["win_total"]
+
+    def set_winning_score(self, t_body):
+       
+        """Get winning score total for tournament
+
+        Args:
+            t_body (element.tag) : tourn table body. Child of ResponsiveTable
+
+        Returns
+            winning score total
+        """
+        
+        # tournament winner's total's data
+        tourn_totals = t_body.find("td", class_="Table__TD")
+        if tourn_totals:
+            totals = tourn_totals.find_next_siblings()
+            if len(totals) == 9:
+                # selects 4 round (72 hole) total
+                total = totals[-3].text
+                self.tournament_info["win_total"] = total
+            else:
+                total = totals[-3].text
+                if len(total) == 0:
+                    self.tournament_info["win_total"] = None
+                else:
+                    self.tournament_info["win_total"] = total
 
 def main():
 
