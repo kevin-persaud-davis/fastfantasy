@@ -155,6 +155,22 @@ class EspnTournament():
         else:
             self.tournament_info["winner_name"] = None
 
+    def get_winner_id(self):
+        return self.tournament_info["winner_id"]
+
+    def set_winner_id(self, t_body):
+        winner = t_body.find("a")
+        if winner:
+            winner_id = winner["href"]
+            # substring start and end indexes
+            start_winner = winner_id.find("id/") + 3
+            end_winner = winner_id.rfind("/")
+
+            id = winner_id[start_winner:end_winner]
+            self.tournament_info["winner_id"] = id
+        else:
+            self.tournament_info["winner_id"] = None
+
 
 def main():
 
