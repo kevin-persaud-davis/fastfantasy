@@ -194,5 +194,15 @@ def test_winner_name(retrieve_tournament_body):
 
     assert expected == actual
 
+def test_winner_id(retrieve_tournament_body):
+
+    expected = "4848"
+
+    espn_t = EspnTournament()
+    espn_t.set_winner_id(retrieve_tournament_body)
+
+    actual = espn_t.get_winner_id()
+
+    assert expected == actual
 
 
