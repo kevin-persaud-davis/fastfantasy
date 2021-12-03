@@ -135,6 +135,16 @@ class EspnTournament():
                 else:
                     self.tournament_info["win_total"] = total
 
+    def get_tournament_size(self):
+        return self.tournament_info["tournament_size"]
+
+    def set_tournament_size(self, t_body):
+        players = t_body.find_all("tr", class_="Table__TR Table__even")
+        if players is not None:
+            num_players = len(players)
+            self.tournament_info["tournament_size"] = num_players
+
+
 def main():
 
     espn_t = EspnTournament()
