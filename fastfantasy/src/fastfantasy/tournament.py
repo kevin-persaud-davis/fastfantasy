@@ -61,6 +61,28 @@ class EspnTournament():
             else:
                 print("Did not find identifier in string for: ", date)
 
+    def date_parser(self, date):
+
+        year = date[date.rfind(" ")+1:]
+
+        month_and_day = self.parse_espn_dates(date, "-")
+        
+        day = self.parse_espn_dates(month_and_day, " ", b_identifier=False)
+        day = day.lstrip()
+        
+        month = self.parse_espn_dates(month_and_day, " ", b_identifier=True)
+        month_abr = month[:3]
+        month_number = strptime(month_abr, "%b").tm_mon
+        
+        date_str = str(month_number) + "/" + day + "/" + year
+        print(date_str)
+        return date_str
+
+
+espn_t = EspnTournament()
+
+espn_t.date_parser("Oct 5-8 2018")
+
 
 
 
