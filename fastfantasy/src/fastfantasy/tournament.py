@@ -75,8 +75,15 @@ class EspnTournament():
         month_number = strptime(month_abr, "%b").tm_mon
         
         date_str = str(month_number) + "/" + day + "/" + year
-        print(date_str)
         return date_str
+
+    def get_date(self):
+        return self.tournament_info["tournament_date"]
+    
+    def set_date(self, tourn_meta):
+        tourn_date = tourn_meta.find("span").text
+        t_date = self.date_parser(tourn_date)
+        self.tournament_info["tournament_date"] = t_date
 
 
 espn_t = EspnTournament()
