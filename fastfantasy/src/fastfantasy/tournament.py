@@ -171,6 +171,12 @@ class EspnTournament():
         else:
             self.tournament_info["winner_id"] = None
 
+    def get_season_id(self):
+        return self.tournament_info["season_id"]
+
+    def set_season_id(self, s_id):
+        self.tournament_info["season_id"] = s_id
+
 
 def main():
 
