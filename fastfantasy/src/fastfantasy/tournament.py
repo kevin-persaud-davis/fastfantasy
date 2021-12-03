@@ -144,6 +144,17 @@ class EspnTournament():
             num_players = len(players)
             self.tournament_info["tournament_size"] = num_players
 
+    def get_winner_name(self):
+        return self.tournament_info["winner_name"]
+
+    def set_winner_name(self, t_body):
+        winner = t_body.find("a")
+        if winner:
+            name = winner.text
+            self.tournament_info["winner_name"] = name
+        else:
+            self.tournament_info["winner_name"] = None
+
 
 def main():
 
