@@ -205,4 +205,14 @@ def test_winner_id(retrieve_tournament_body):
 
     assert expected == actual
 
+def test_season_id():
+    expected = 2018
+
+    espn_t = EspnTournament()
+    espn_t.set_season_id(2018)
+
+    actual = espn_t.get_season_id()
+
+    assert expected == actual
+
 
