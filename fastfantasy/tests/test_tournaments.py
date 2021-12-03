@@ -172,4 +172,16 @@ def test_winning_score(retrieve_tournament_body):
     assert expected == actual
 
 
+def test_tournament_size(retrieve_tournament_body):
+
+    expected = 78
+
+    espn_t = EspnTournament()
+    espn_t.set_tournament_size(retrieve_tournament_body)
+
+    actual = espn_t.get_tournament_size()
+
+    assert expected == actual
+
+
 
