@@ -86,5 +86,16 @@ def test_espn_date_parser():
 
     assert expected == actual
 
+def test_date_parser():
+
+    expected = "10/5/2018"
+
+    d = "Oct 5-8 2018"
+
+    espn_t = EspnTournament()
+
+    actual = espn_t.date_parser(d)
+
+    assert expected == actual
 
 
