@@ -73,3 +73,18 @@ def test_espn_tournament_name(retrieve_tournament):
 
     assert expected == actual
 
+
+def test_espn_date_parser():
+
+    expected = "Oct 5"
+
+    d = "Oct 5-8 2018"
+
+    espn_t = EspnTournament()
+
+    actual = espn_t.parse_espn_dates(d, "-")
+
+    assert expected == actual
+
+
+
