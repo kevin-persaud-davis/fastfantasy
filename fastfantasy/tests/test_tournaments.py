@@ -75,6 +75,30 @@ def retrieve_tournament_header():
                 header = soup.find("div", class_="Leaderboard__Header")
                 return header
 
+@pytest.fixture
+def retrieve_tournament_body():
+
+    url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+
+    with requests.Session() as session:
+
+            page = session.get(url)
+
+            if page.status_code == 200:
+
+                soup = BeautifulSoup(page.content, "html.parser")
+
+                header = soup.find("div", class_="Leaderboard__Header")
+
+            # Table's on webpage. index with -1 in case of playoff table
+            tourn_tables = soup.select("div.ResponsiveTable")
+            if tourn_tables:
+                # win_total, tournamnet_size, winner_name, winner_id
+                tourn_table = tourn_tables[-1]
+
+                tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
+                return tourn_body
+
 
 def test_espn_tournament_name(retrieve_tournament_meta):
     
@@ -136,6 +160,16 @@ def test_tournament_purse(retrieve_tournament_header):
 
     assert expected == actual
 
+def test_winning_score(retrieve_tournament_body):
+
+    expected = "279"
+
+    espn_t = EspnTournament()
+    espn_t.set_winning_score(retrieve_tournament_body)
+
+    actual = espn_t.get_winning_score()
+
+    assert expected == actual
 
 
 
