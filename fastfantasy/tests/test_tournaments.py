@@ -184,4 +184,15 @@ def test_tournament_size(retrieve_tournament_body):
     assert expected == actual
 
 
+def test_winner_name(retrieve_tournament_body):
+    expected = "Justin Thomas"
+
+    espn_t = EspnTournament()
+    espn_t.set_winner_name(retrieve_tournament_body)
+
+    actual = espn_t.get_winner_name()
+
+    assert expected == actual
+
+
 
