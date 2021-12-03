@@ -25,7 +25,7 @@ class EspnTournament():
         self.tournament_info["tournament_id"] = t_id
 
     def get_tournament_name(self):
-        return self.tournament_info["tournament_info"]
+        return self.tournament_info["tournament_name"]
 
     def set_tournament_name(self, tourn_meta):
         tourn_name = tourn_meta.find("h1").text
