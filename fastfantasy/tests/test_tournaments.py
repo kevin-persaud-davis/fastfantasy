@@ -60,6 +60,21 @@ def retrieve_tournament_meta():
 
                 return tourn_meta
 
+@pytest.fixture
+def retrieve_tournament_header():
+    url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+
+    with requests.Session() as session:
+
+            page = session.get(url)
+
+            if page.status_code == 200:
+
+                soup = BeautifulSoup(page.content, "html.parser")
+
+                header = soup.find("div", class_="Leaderboard__Header")
+                return header
+
 
 def test_espn_tournament_name(retrieve_tournament_meta):
     
@@ -108,6 +123,19 @@ def test_date(retrieve_tournament_meta):
     acutal = espn_t.get_date()
 
     assert expected == acutal
+
+
+def test_tournament_purse(retrieve_tournament_header):
+    expected = "9250000"
+
+    espn_t = EspnTournament()
+
+    espn_t.set_tournament_purse(retrieve_tournament_header)
+
+    actual = espn_t.get_tournament_purse()
+
+    assert expected == actual
+
 
 
 
