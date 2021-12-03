@@ -42,7 +42,7 @@ def test_espn_tournament_id():
     assert actual == expected
 
 @pytest.fixture
-def retrieve_tournament():
+def retrieve_tournament_meta():
     url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
 
     with requests.Session() as session:
@@ -61,13 +61,13 @@ def retrieve_tournament():
                 return tourn_meta
 
 
-def test_espn_tournament_name(retrieve_tournament):
+def test_espn_tournament_name(retrieve_tournament_meta):
     
     expected = "THE CJ CUP @ NINE BRIDGES"
 
     espn_t = EspnTournament()
 
-    espn_t.set_tournament_name(retrieve_tournament)
+    espn_t.set_tournament_name(retrieve_tournament_meta)
 
     actual = espn_t.get_tournament_name()
 
@@ -98,12 +98,12 @@ def test_date_parser():
 
     assert expected == actual
 
-def test_date(retrieve_tournament):
+def test_date(retrieve_tournament_meta):
     expected = "10/19/2017"
 
     espn_t = EspnTournament()
     
-    espn_t.set_date(retrieve_tournament)
+    espn_t.set_date(retrieve_tournament_meta)
 
     acutal = espn_t.get_date()
 
