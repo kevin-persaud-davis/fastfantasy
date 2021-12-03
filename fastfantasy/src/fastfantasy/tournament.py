@@ -12,6 +12,7 @@ class EspnTournament():
             "date":"",
             "tournament_purse":"",
             "win_total":"",
+            "tournament_size":"",
             "winner_name":"",
             "winner_id":"",
             "season_id":"",
