@@ -98,4 +98,16 @@ def test_date_parser():
 
     assert expected == actual
 
+def test_date(retrieve_tournament):
+    expected = "10/19/2017"
+
+    espn_t = EspnTournament()
+    
+    espn_t.set_date(retrieve_tournament)
+
+    acutal = espn_t.get_date()
+
+    assert expected == acutal
+
+
 
