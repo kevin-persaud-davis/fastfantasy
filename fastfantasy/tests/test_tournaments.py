@@ -1,6 +1,10 @@
 from fastfantasy.tournaments import EspnSeasonSchedule
 from fastfantasy.tournament import EspnTournament
 
+import requests
+from bs4 import BeautifulSoup
+import pytest
+
 def test_season_urls():
     """Test season urls from given season inputs (start and end)"""
     expected = ['https://www.espn.com/golf/schedule/_/season/2017', 
@@ -36,3 +40,36 @@ def test_espn_tournament_id():
     actual = espn_t.get_tournament_id()
 
     assert actual == expected
+
+@pytest.fixture
+def retrieve_tournament():
+    url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+
+    with requests.Session() as session:
+
+            page = session.get(url)
+
+            if page.status_code == 200:
+
+                soup = BeautifulSoup(page.content, "html.parser")
+
+                header = soup.find("div", class_="Leaderboard__Header")
+
+                mt4 = header.find_all("div", class_="mt4")
+                tourn_meta = mt4[-1]
+
+                return tourn_meta
+
+
+def test_espn_tournament_name(retrieve_tournament):
+    
+    expected = "THE CJ CUP @ NINE BRIDGES"
+
+    espn_t = EspnTournament()
+
+    espn_t.set_tournament_name(retrieve_tournament)
+
+    actual = espn_t.get_tournament_name()
+
+    assert expected == actual
+
