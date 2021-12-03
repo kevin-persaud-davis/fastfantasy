@@ -85,10 +85,54 @@ class EspnTournament():
         t_date = self.date_parser(tourn_date)
         self.tournament_info["tournament_date"] = t_date
 
+    def get_tournament_purse(self):
+        return self.tournament_info["tournament_purse"]
 
-espn_t = EspnTournament()
+    def set_tournament_purse(self, tourn_header):
+        
+        purse_class = tourn_header.find("div", class_="n7 clr-gray-04").text
 
-espn_t.date_parser("Oct 5-8 2018")
+        # string find method
+        purse_start = purse_class.find("$") + 1
+
+        if purse_class.find("D") != -1:
+            purse_end = purse_class.find("D")
+            purse = purse_class[purse_start:purse_end]
+        else:
+            purse = purse_class[purse_start:]
+        
+        purse = purse.replace(",", "")
+
+        self.tournament_info["tournament_purse"] = purse
+
+
+def main():
+
+    espn_t = EspnTournament()
+
+    espn_t.date_parser("Oct 5-8 2018")  
+
+    
+    url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+    # url = "https://www.espn.com/golf/leaderboard?tournamentId=3780"
+
+    with requests.Session() as session:
+
+            page = session.get(url)
+
+            if page.status_code == 200:
+
+                soup = BeautifulSoup(page.content, "html.parser")
+
+                header = soup.find("div", class_="Leaderboard__Header")
+                
+                espn_t.set_tournament_purse(header)
+
+                print(espn_t.get_tournament_purse())
+
+if __name__ == "__main__":
+    main()
+
 
 
 
