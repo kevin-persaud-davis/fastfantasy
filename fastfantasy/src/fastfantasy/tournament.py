@@ -30,3 +30,37 @@ class EspnTournament():
     def set_tournament_name(self, tourn_meta):
         tourn_name = tourn_meta.find("h1").text
         self.tournament_info["tournament_name"] = tourn_name
+
+    def parse_espn_dates(self, date, identifier, b_identifier=True):
+        """Parse for subset date of the original date
+
+        Args:
+            date (str) - date of a tournament (ex. 'Oct 5-8 2018')
+            identifier (str) - ident. to be searched for
+            b_identifer (bool) - flag to tell where subset search begins
+
+        Returns:
+            subset of the date
+        """
+        if b_identifier:
+            if date.find(identifier) != -1:
+                b_idx = date.find(identifier)
+                # Should return month
+                n_date = date[:b_idx].rstrip()
+                return n_date
+            else:
+                # special case of only one date in link
+                b_idx = date.find(",")
+                n_date = date[:b_idx]
+                return n_date
+        else:
+            if date.find(identifier) != -1:
+                a_idx = date.find(identifier)
+                # Should return day
+                return date[a_idx: ]
+            else:
+                print("Did not find identifier in string for: ", date)
+
+
+
+
