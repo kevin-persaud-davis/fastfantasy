@@ -215,4 +215,74 @@ def test_season_id():
 
     assert expected == actual
 
+def test_espn_tournament_integration(retrieve_tournament_header, retrieve_tournament_meta, retrieve_tournament_body):
+
+    url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+    s_id = 2018
+    espn_t = EspnTournament()
+    espn_t.set_tournament_id(url)
+
+    espn_t.set_tournament_name(retrieve_tournament_meta)
+    
+    espn_t.set_date(retrieve_tournament_meta)
+
+    espn_t.set_tournament_purse(retrieve_tournament_header)
+    
+    
+
+    espn_t.set_winning_score(retrieve_tournament_body)
+
+    espn_t.set_tournament_size(retrieve_tournament_body)
+    
+    espn_t.set_winner_name(retrieve_tournament_body)
+    
+    espn_t.set_winner_id(retrieve_tournament_body)
+
+    espn_t.set_season_id(s_id)
+
+    expected_tournamet_id = "3802"
+    actual_tournament_id = espn_t["tournament_id"]
+
+    expected_tournament_name = "THE CJ CUP @ NINE BRIDGES"
+    actual_tournament_name = espn_t["tournament_name"]
+
+    expected_tournament_date = "10/19/2017"
+    actual_tournamet_date = espn_t["tournament_date"]
+
+    expected_tournament_purse = "9250000"
+    actual_tournament_purse = espn_t["tournament_purse"]
+
+    expected_win_total = "279"
+    actual_win_total = espn_t["win_total"]
+
+    expected_tournament_size = 78
+    actual_tournamet_size = espn_t["tournament_size"]
+
+    expected_winner_name = "Justin Thomas"
+    actual_winner_name = espn_t["winner_name"]
+
+    expected_winner_id = "4848"
+    actual_winner_id = espn_t["winner_id"]
+
+    expected_season_id = 2018
+    actual_season_id = espn_t["season_id"]
+
+    
+    
+    
+    assert expected_tournamet_id == actual_tournament_id
+    assert expected_tournament_name == actual_tournament_name
+    assert expected_tournament_date == actual_tournamet_date
+    assert expected_tournament_purse == actual_tournament_purse
+    assert expected_win_total == actual_win_total
+    assert expected_tournament_size == actual_tournamet_size
+    assert expected_winner_name == actual_winner_name
+    assert expected_winner_id == actual_winner_id
+    assert expected_season_id == actual_season_id
+
+
+    
+    
+
+       
 
