@@ -18,10 +18,25 @@ class EspnTournament():
             "season_id":"",
         }
 
+    def __getitem__(self, i):
+        return self.tournament_info[i]
+
+    def set_all_w(self, w_name, w_id, w_total):
+        self.tournament_info["winner_name"] = w_name
+        self.tournament_info["winner_id"] = w_id
+        self.tournament_info["win_total"] = w_total
+
+    def set_all_missing(self):
+        self.tournament_info["win_total"] = None
+        self.tournament_info["tournament_size"] = None
+        self.tournament_info["winner_name"] = None
+        self.tournament_info["winner_id"] = None
+
     def get_tournament_id(self):
         return self.tournament_info["tournament_id"]
     
     def set_tournament_id(self, url):
+        print(url)
         t_id = url[url.rfind("=") + 1:]
         self.tournament_info["tournament_id"] = t_id
 
@@ -179,29 +194,8 @@ class EspnTournament():
 
 
 def main():
-
-    espn_t = EspnTournament()
-
-    espn_t.date_parser("Oct 5-8 2018")  
-
+    pass
     
-    url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
-    # url = "https://www.espn.com/golf/leaderboard?tournamentId=3780"
-
-    with requests.Session() as session:
-
-            page = session.get(url)
-
-            if page.status_code == 200:
-
-                soup = BeautifulSoup(page.content, "html.parser")
-
-                header = soup.find("div", class_="Leaderboard__Header")
-                
-                espn_t.set_tournament_purse(header)
-
-                print(espn_t.get_tournament_purse())
-
 if __name__ == "__main__":
     main()
 
