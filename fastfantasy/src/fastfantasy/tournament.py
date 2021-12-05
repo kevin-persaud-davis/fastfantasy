@@ -213,7 +213,7 @@ class EspnTournament():
         return self.tournament_info["win_total"]
 
     def set_winning_score(self, t_body):
-        """Set winning score total for tournament body.
+        """Set winning score total from tournament body.
 
         Parameters
         ----------
@@ -244,7 +244,7 @@ class EspnTournament():
         return self.tournament_info["tournament_size"]
 
     def set_tournament_size(self, t_body):
-        """Set tournament size for tournament body.
+        """Set tournament size from tournament body.
 
         Parameters
         ----------
@@ -265,7 +265,7 @@ class EspnTournament():
         return self.tournament_info["winner_name"]
 
     def set_winner_name(self, t_body):
-        """Set winner name for tournament body.
+        """Set winner name from tournament body.
 
         Parameters
         ----------
@@ -288,7 +288,7 @@ class EspnTournament():
         return self.tournament_info["winner_id"]
 
     def set_winner_id(self, t_body):
-        """Set winner id for tournament body.
+        """Set winner id from tournament body.
 
         Parameters
         ----------
