@@ -8,3 +8,4 @@ PROJECT_DIR = Path(ML_DIR, "projects")
 FASTFANTASY_DIR = Path(PROJECT_DIR, "fastfantasy")
 
 CONFIG_DIR = Path(FASTFANTASY_DIR, "config")
+DATA_DIR = Path(FASTFANTASY_DIR, "data")
