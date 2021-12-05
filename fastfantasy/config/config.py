@@ -7,4 +7,4 @@ ML_DIR = Path(BASE_DIR, "machine_learning")
 PROJECT_DIR = Path(ML_DIR, "projects")
 FASTFANTASY_DIR = Path(PROJECT_DIR, "fastfantasy")
 
-CONFIG_DIR = Path(PGA_DIR, "config")
+CONFIG_DIR = Path(FASTFANTASY_DIR, "config")
