@@ -9,7 +9,7 @@ class EspnTournament():
         self.tournament_info = {
             "tournament_id":"",
             "tournament_name":"",
-            "date":"",
+            "tournament_date":"",
             "tournament_purse":"",
             "win_total":"",
             "tournament_size":"",
@@ -193,8 +193,138 @@ class EspnTournament():
         self.tournament_info["season_id"] = s_id
 
 
+class EspnSeason():
+
+    def __init__(self, start, end=None) -> None:
+        b_url = "https://www.espn.com/golf/schedule/_/season/"
+        if end is not None:
+            season_urls = [b_url + str(season) for season in range(start, end+1)]
+        else:
+            season_urls = [f"{b_url}{start}"]
+
+        self.season_urls = season_urls
+        self.season_data = []
+    
+    def retrieve_tournament_info(self, t_url, s_id):
+        
+        espn_t = EspnTournament()
+        
+        with requests.Session() as session:
+
+            page = session.get(t_url)
+
+            if page.status_code == 200:
+                
+                soup = BeautifulSoup(page.content, "html.parser")
+                header = soup.find("div", class_="Leaderboard__Header")
+
+                mt4 = header.find_all("div", class_="mt4")
+                tourn_meta = mt4[-1]
+
+                espn_t.set_tournament_id(t_url)
+
+                espn_t.set_tournament_name(tourn_meta)
+                
+                espn_t.set_date(tourn_meta)
+
+                espn_t.set_tournament_purse(header)
+                
+                # Table's on webpage. index with -1 in case of playoff table
+                tourn_tables = soup.select("div.ResponsiveTable")
+                if tourn_tables:
+                    # win_total, tournamnet_size, winner_name, winner_id
+                    tourn_table = tourn_tables[-1]
+
+                    tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
+
+                    espn_t.set_winning_score(tourn_body)
+
+                    espn_t.set_tournament_size(tourn_body)
+                    
+                    espn_t.set_winner_name(tourn_body)
+                    
+                    espn_t.set_winner_id(tourn_body)
+
+                    espn_t.set_season_id(s_id)
+                    
+                    if espn_t.get_tournament_id() == "2277":
+
+                        espn_t.set_all_w("Scott Piercy", "1037", "265")
+                        
+                else:
+                    print(f"No div.ResponsiveTable, (Tournament {espn_t.get_tournament_id()} Cancelled)")
+
+                    espn_t.set_all_missing()
+                    espn_t.set_season_id(s_id)
+
+            self.season_data.append(espn_t)
+
+    def retrieve_season(self, season_url):
+        """Get all tournaments in the season with their specific identifiers
+    
+        Args:
+            season_url (str) : espn season schedule webpage
+
+        Returns:
+            collection of espn tournament data
+        """
+        with requests.Session() as session:
+
+            page = session.get(season_url)
+            if page.status_code == 200:
+                    
+                soup = BeautifulSoup(page.content, "html.parser")
+
+                season_table = soup.select("div.ResponsiveTable")
+                if season_table is not None:
+                    season_body = season_table[0].find("tbody", class_="Table__TBODY")
+                
+                tournaments = season_body.find_all("div", class_="eventAndLocation__innerCell")
+                
+                if tournaments is not None:
+                    for tournament in tournaments:
+                        tournament_url = tournament.find("a")
+                        if tournament_url:    
+                            t_url = tournament_url["href"]
+                            print(f"Fetching {t_url} data")
+
+                            season_id = season_url[season_url.rfind("/")+1 :]
+
+                            self.retrieve_tournament_info(t_url, season_id)
+            else:
+                print(f"Error retrieving page. page status code: {page.status_code}")
+    
+    def retrieve_all_seasons(self):
+        
+        for season in self.season_urls:
+            self.retrieve_season(season)
+
+
 def main():
-    pass
+    
+    tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+    e_season = EspnSeason(2017, 2018)
+    # e_season.retrieve_tournament_info(tournament_url, 2018)
+
+    # print(e_season.season_data[0].tournament_info)
+    # tournament_data = retrieve_all_tournamet_info(tournament_url, 2018)
+
+    season_url = "https://www.espn.com/golf/schedule/_/season/2018"
+    # season_data = retrieve_full_season(season_url)
+
+    # e_season.retrieve_season(season_url)
+
+    # print(len(e_season.season_data))
+
+    # for tournament in e_season.season_data:
+    #     print(tournament.tournament_info)
+
+    # for season in season_data: print(season.tournament_info)
+    # print(len(season_data))
+    
+    e_season.retrieve_all_seasons()
+    print(len(e_season.season_data))
+    
     
 if __name__ == "__main__":
     main()
