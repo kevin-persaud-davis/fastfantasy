@@ -1,6 +1,11 @@
+from pathlib import Path
+import sys
+sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\fastfantasy\\config")
+import config
 import requests
 from bs4 import BeautifulSoup
 from time import strptime
+import pandas as pd
 
 class EspnTournament():
 
@@ -463,11 +468,40 @@ class EspnSeason():
         for season in self.season_urls:
             self.retrieve_season(season)
 
+    def feed_season_data(self):
+
+        if self.season_data is not None:
+            
+            data = [tournament.tournament_info for tournament in self.season_data]
+            
+            df = pd.DataFrame(data)
+            df["tournament_purse"] = pd.to_numeric(df["tournament_purse"], downcast="integer")
+            df["win_total"] = pd.to_numeric(df["win_total"], downcast="integer")
+            df["tournament_date"] = pd.to_datetime(df["tournament_date"])
+            df.sort_values(by=["tournament_date", "season_id"], inplace=True)
+
+            f_path = str(Path(config.RAW_DATA_DIR, "espn_tournaments.csv"))
+            file_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
+
+            # need to add check of current season range to make sure no duplicates are appended to file
+
+            # Might just delete below since it is more up to the user's choice of how they want to handle
+            # the data
+
+            if file_path.is_file():
+                print(type(file_path), file_path)
+                df.to_csv(file_path, index=False, mode="a")
+            else:
+
+                df.to_csv(file_path, index=False)
+
+            return df
+
 
 def main():
     
     tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
-    e_season = EspnSeason(2017, 2018)
+    e_season = EspnSeason(2018)
     # e_season.retrieve_tournament_info(tournament_url, 2018)
 
     # print(e_season.season_data[0].tournament_info)
@@ -488,7 +522,12 @@ def main():
     
     e_season.retrieve_all_seasons()
     print(len(e_season.season_data))
+    # season_data = []
+    # for tournament in e_season.season_data:
+    #     season_data.append(tournament.tournament_info)
     
+    d = e_season.feed_season_data()
+    print(d.shape)
     
 if __name__ == "__main__":
     main()
