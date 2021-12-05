@@ -162,6 +162,18 @@ class EspnTournament():
         return self.tournament_info["tournament_date"]
     
     def set_date(self, tourn_meta):
+        """Set tournament date from a tournament meta.
+
+        Parameters
+        ----------
+        tourn_meta : element.Tag 
+            child of Leaderboard__Header class.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_date(tourn_meta)
+        """
         tourn_date = tourn_meta.find("span").text
         t_date = self.date_parser(tourn_date)
         self.tournament_info["tournament_date"] = t_date
