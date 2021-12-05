@@ -288,6 +288,18 @@ class EspnTournament():
         return self.tournament_info["winner_id"]
 
     def set_winner_id(self, t_body):
+        """Set winner id for tournament body.
+
+        Parameters
+        ----------
+        t_body : element.Tag 
+            Child of ResponsiveTable.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_winner_id(t_body)
+        """
         winner = t_body.find("a")
         if winner:
             winner_id = winner["href"]
