@@ -57,6 +57,19 @@ class EspnTournament():
         return self.tournament_info["tournament_name"]
 
     def set_tournament_name(self, tourn_meta):
+        """Set tournament name from a tournament meta.
+
+        Parameters
+        ----------
+        tournament_meta : element.Tag 
+            child of Leaderboard__Header class to find tournament name.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_tournament_id(tourn_meta)
+        
+        """
         tourn_name = tourn_meta.find("h1").text
         self.tournament_info["tournament_name"] = tourn_name
 
