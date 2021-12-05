@@ -125,6 +125,24 @@ class EspnTournament():
                 print("Did not find identifier in string for: ", date)
 
     def date_parser(self, date):
+        """Reformat ESPN tournament date.
+
+        Parameters
+        ----------
+        date : str 
+            Date to parse.
+
+        Returns
+        -------
+        str
+            Reformatted ESPN date.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.date_parser("Oct 5-8 2018")
+        "10/5/2018"
+        """
 
         year = date[date.rfind(" ")+1:]
 
