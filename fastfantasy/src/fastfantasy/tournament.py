@@ -316,6 +316,18 @@ class EspnTournament():
         return self.tournament_info["season_id"]
 
     def set_season_id(self, s_id):
+        """Set season id from s_id.
+
+        Parameters
+        ----------
+        s_id : int
+            Season id to set.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_season_id(2018)
+        """
         self.tournament_info["season_id"] = s_id
 
 
