@@ -535,6 +535,23 @@ class CleanTournaments():
 
         self.cleaned_df = valid_df
 
+    def filter_tournaments(self):
+        """Filter espn tournaments.
+        
+        Notes:
+            differs from filter_valid_tournaments by keeping the Tour Championship in the set.
+            The reason for the removal of that tournament is the rule changed that started in 2019
+            
+        Args:
+            df (pd.DataFrame): espn tournaments
+            
+        Returns:
+            filtered dataframe of espn tournaments    
+        """
+        filtered_df = self.df[~self.df.winner_name.isnull()].copy()
+        
+        self.cleaned_df = filtered_df
+
 def main():
     
     tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
