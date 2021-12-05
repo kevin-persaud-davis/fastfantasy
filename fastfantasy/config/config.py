@@ -9,3 +9,6 @@ FASTFANTASY_DIR = Path(PROJECT_DIR, "fastfantasy")
 
 CONFIG_DIR = Path(FASTFANTASY_DIR, "config")
 DATA_DIR = Path(FASTFANTASY_DIR, "data")
+
+RAW_DATA_DIR = Path(DATA_DIR, "raw")
+PROCESSED_DATA_DIR = Path(DATA_DIR, "processed")
