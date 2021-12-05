@@ -36,7 +36,20 @@ class EspnTournament():
         return self.tournament_info["tournament_id"]
     
     def set_tournament_id(self, url):
-        print(url)
+        """Set tournament id from a url.
+
+        Parameters
+        ----------
+        url : str
+            ESPN tournament url.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+        >>> espn_t.set_tournament_id(t_url)
+
+        """
         t_id = url[url.rfind("=") + 1:]
         self.tournament_info["tournament_id"] = t_id
 
