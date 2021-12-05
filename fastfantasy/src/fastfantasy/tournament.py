@@ -453,7 +453,13 @@ class EspnSeason():
                 print(f"Error retrieving page. page status code: {page.status_code}")
     
     def retrieve_all_seasons(self):
-        
+        """Retrieve all seasons set from constructor.
+
+        Examples
+        --------
+        >>> espn_s = EspnSeason(2018)
+        >>> espn_s.retrieve_all_seasons()
+        """
         for season in self.season_urls:
             self.retrieve_season(season)
 
