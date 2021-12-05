@@ -5,7 +5,8 @@ from pathlib import Path
 BASE_DIR = Path.home()
 ML_DIR = Path(BASE_DIR, "machine_learning")
 PROJECT_DIR = Path(ML_DIR, "projects")
-FASTFANTASY_DIR = Path(PROJECT_DIR, "fastfantasy")
+TOP_DIR = Path(PROJECT_DIR, "fastfantasy")
+FASTFANTASY_DIR = Path(TOP_DIR, "fastfantasy")
 
 CONFIG_DIR = Path(FASTFANTASY_DIR, "config")
 DATA_DIR = Path(FASTFANTASY_DIR, "data")
