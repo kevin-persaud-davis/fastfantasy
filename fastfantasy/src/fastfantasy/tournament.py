@@ -516,7 +516,7 @@ class CleanTournaments():
         self.df = df
         self.cleaned_df = pd.DataFrame()
     
-    def filter_valid_tournaments(self):
+    def keep_valid_tournaments(self):
         """Filter for valid tournaments
 
         Notes:
@@ -548,7 +548,7 @@ def main():
     print(df.shape)
 
     clean_tourn = CleanTournaments(df)
-    clean_tourn.filter_valid_tournaments()
+    clean_tourn.keep_valid_tournaments()
     print(clean_tourn.cleaned_df.shape)
     
 if __name__ == "__main__":
