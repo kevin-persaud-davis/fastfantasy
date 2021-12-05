@@ -413,7 +413,7 @@ class EspnSeason():
             self.season_data.append(espn_t)
 
     def retrieve_season(self, season_url):
-        """Get all tournaments in the season with their specific identifiers
+        """Retrieve season from season url.
     
         Parameters
         ----------
