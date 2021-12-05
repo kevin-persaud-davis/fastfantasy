@@ -552,6 +552,29 @@ class CleanTournaments():
         
         self.cleaned_df = filtered_df
 
+    def save_cleaned_tournaments(self, save_fname, valid_tourns=True):
+        """Create subset of tournaments to save
+        
+        Args:
+            tourn_path (str) : espn tournaments file name
+
+            subset_path (str) : subset tournaments file name
+
+        """
+
+        if valid_tourns == True:
+
+            self.keep_valid_tournaments()
+
+        else:
+
+            self.filter_tournaments()
+
+        cleaned_tourn_path = str(Path(config.PROCESSED_DATA_DIR, save_fname))
+
+        self.cleaned_df.to_csv(cleaned_tourn_path, index=False)
+
+
 def main():
     
     tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
@@ -562,10 +585,10 @@ def main():
     f_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
     df = pd.read_csv(f_path, date_parser=["tournament_date"])
 
-    print(df.shape)
+    
 
     clean_tourn = CleanTournaments(df)
-    clean_tourn.keep_valid_tournaments()
+    clean_tourn.save_cleaned_tournaments("valid_tournaments.csv")
     print(clean_tourn.cleaned_df.shape)
     
 if __name__ == "__main__":
