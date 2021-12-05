@@ -415,11 +415,16 @@ class EspnSeason():
     def retrieve_season(self, season_url):
         """Get all tournaments in the season with their specific identifiers
     
-        Args:
-            season_url (str) : espn season schedule webpage
+        Parameters
+        ----------
+        season_url : str
+            Season url to extract information.
 
-        Returns:
-            collection of espn tournament data
+        Examples
+        --------
+        >>> espn_s = EspnSeason(2018)
+        >>> season_url = "https://www.espn.com/golf/schedule/_/season/2018"
+        >>> espn_s.retrieve_season(season_url)
         """
         with requests.Session() as session:
 
