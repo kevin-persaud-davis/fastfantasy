@@ -48,7 +48,6 @@ class EspnTournament():
         >>> espn_t = EspnTournament()
         >>> t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
         >>> espn_t.set_tournament_id(t_url)
-
         """
         t_id = url[url.rfind("=") + 1:]
         self.tournament_info["tournament_id"] = t_id
@@ -68,7 +67,6 @@ class EspnTournament():
         --------
         >>> espn_t = EspnTournament()
         >>> espn_t.set_tournament_id(tourn_meta)
-        
         """
         tourn_name = tourn_meta.find("h1").text
         self.tournament_info["tournament_name"] = tourn_name
@@ -83,6 +81,29 @@ class EspnTournament():
 
         Returns:
             subset of the date
+        Set tournament name from a tournament meta.
+
+        Parameters
+        ----------
+        date : str 
+            ESPN tournament date to parse.
+
+        identifier : str
+            Identifier to be searched for.
+
+        b_identifier : bool
+            Flag to tell where subset search begins.
+
+        Returns
+        -------
+        str
+            Parsed ESPN date.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.parse_espn_dates("Oct 5-8 2018", "-")
+        "Oct 5"
         """
         if b_identifier:
             if date.find(identifier) != -1:
