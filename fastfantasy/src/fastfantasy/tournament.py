@@ -316,12 +316,12 @@ class EspnTournament():
         return self.tournament_info["season_id"]
 
     def set_season_id(self, s_id):
-        """Set season id from s_id.
+        """Set season identifier from s_id.
 
         Parameters
         ----------
         s_id : int
-            Season id to set.
+            Season identifier to set.
 
         Examples
         --------
@@ -344,6 +344,21 @@ class EspnSeason():
         self.season_data = []
     
     def retrieve_tournament_info(self, t_url, s_id):
+        """Retrieve tournament information from tournament url and season id.
+
+        Parameters
+        ----------
+        t_url : str
+            Tournament url to extract information.
+        
+        s_id : int
+            Season identifier. 
+
+        Examples
+        --------
+        >>> tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+        >>> espn_t.retrieve_tournament_info(tournament_url, 2017)
+        """
         
         espn_t = EspnTournament()
         
