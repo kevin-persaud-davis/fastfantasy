@@ -182,7 +182,18 @@ class EspnTournament():
         return self.tournament_info["tournament_purse"]
 
     def set_tournament_purse(self, tourn_header):
-        
+        """Set tournament purse from a tournament header.
+
+        Parameters
+        ----------
+        tourn_header : element.Tag 
+            Leaderboard__Header class.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_tournament_purse(tourn_header)
+        """
         purse_class = tourn_header.find("div", class_="n7 clr-gray-04").text
 
         # string find method
