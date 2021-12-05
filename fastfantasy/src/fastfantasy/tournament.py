@@ -469,7 +469,19 @@ class EspnSeason():
             self.retrieve_season(season)
 
     def feed_season_data(self):
+        """Feed all season data held.
 
+        Returns
+        -------
+        pd.DataFrame
+            Season data in dataframe.
+
+        Examples
+        --------
+        >>> e_season = EspnSeason(2018)
+        >>> e_season.retrieve_all_seasons()
+        >>> df = e_season.feed_season_data()
+        """
         if self.season_data is not None:
             
             data = [tournament.tournament_info for tournament in self.season_data]
