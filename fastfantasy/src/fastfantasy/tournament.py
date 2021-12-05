@@ -244,6 +244,18 @@ class EspnTournament():
         return self.tournament_info["tournament_size"]
 
     def set_tournament_size(self, t_body):
+        """Set tournament size for tournament body.
+
+        Parameters
+        ----------
+        t_body : element.Tag 
+            Child of ResponsiveTable.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_tournament_size(t_body)
+        """
         players = t_body.find_all("tr", class_="Table__TR Table__even")
         if players is not None:
             num_players = len(players)
