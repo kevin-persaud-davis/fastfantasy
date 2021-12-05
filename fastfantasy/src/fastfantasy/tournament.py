@@ -510,36 +510,46 @@ class EspnSeason():
             return df
 
 
+class CleanTournaments():
+
+    def __init__(self, df) -> None:
+        self.df = df
+        self.cleaned_df = pd.DataFrame()
+    
+    def filter_valid_tournaments(self):
+        """Filter for valid tournaments
+
+        Notes:
+            Excluding Tour championship for 2019 and 2020
+            due to rule change in score totals.
+
+        Args:
+            df (pd.DataFrame) : espn tournaments
+
+        Returns:
+            valid_df (pd.Dataframe) : valid espn tournaments
+
+        """
+        valid_df = self.df[~self.df.winner_name.isnull()].copy()
+        valid_df = valid_df[~((valid_df["tournament_id"] == 401056542) | (valid_df["tournament_id"] == 401155476))]
+
+        self.cleaned_df = valid_df
+
 def main():
     
     tournament_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
-    e_season = EspnSeason(2018)
-    # e_season.retrieve_tournament_info(tournament_url, 2018)
-
-    # print(e_season.season_data[0].tournament_info)
-    # tournament_data = retrieve_all_tournamet_info(tournament_url, 2018)
-
     season_url = "https://www.espn.com/golf/schedule/_/season/2018"
-    # season_data = retrieve_full_season(season_url)
-
-    # e_season.retrieve_season(season_url)
-
-    # print(len(e_season.season_data))
-
-    # for tournament in e_season.season_data:
-    #     print(tournament.tournament_info)
-
-    # for season in season_data: print(season.tournament_info)
-    # print(len(season_data))
     
-    e_season.retrieve_all_seasons()
-    print(len(e_season.season_data))
-    # season_data = []
-    # for tournament in e_season.season_data:
-    #     season_data.append(tournament.tournament_info)
+    e_season = EspnSeason(2018)
     
-    d = e_season.feed_season_data()
-    print(d.shape)
+    f_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
+    df = pd.read_csv(f_path, date_parser=["tournament_date"])
+
+    print(df.shape)
+
+    clean_tourn = CleanTournaments(df)
+    clean_tourn.filter_valid_tournaments()
+    print(clean_tourn.cleaned_df.shape)
     
 if __name__ == "__main__":
     main()
