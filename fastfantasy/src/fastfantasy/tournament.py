@@ -213,16 +213,18 @@ class EspnTournament():
         return self.tournament_info["win_total"]
 
     def set_winning_score(self, t_body):
-       
-        """Get winning score total for tournament
+        """Set winning score total for tournament body.
 
-        Args:
-            t_body (element.tag) : tourn table body. Child of ResponsiveTable
+        Parameters
+        ----------
+        t_body : element.Tag 
+            Child of ResponsiveTable.
 
-        Returns
-            winning score total
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_winning_score(t_body)
         """
-        
         # tournament winner's total's data
         tourn_totals = t_body.find("td", class_="Table__TD")
         if tourn_totals:
