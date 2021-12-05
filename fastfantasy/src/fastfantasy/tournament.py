@@ -265,6 +265,18 @@ class EspnTournament():
         return self.tournament_info["winner_name"]
 
     def set_winner_name(self, t_body):
+        """Set winner name for tournament body.
+
+        Parameters
+        ----------
+        t_body : element.Tag 
+            Child of ResponsiveTable.
+
+        Examples
+        --------
+        >>> espn_t = EspnTournament()
+        >>> espn_t.set_winner_name(t_body)
+        """
         winner = t_body.find("a")
         if winner:
             name = winner.text
