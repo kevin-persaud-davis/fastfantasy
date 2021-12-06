@@ -126,7 +126,8 @@ def p_scorecard(scorecard_url):
 class GolfRound():
 
     def __init__(self) -> None:
-        pass
+        self.data = {}
+        self.data_pts = {}
 
     def set_round_data(self, rd_base, rd_name):
         """Get player data for specific round in tournament
