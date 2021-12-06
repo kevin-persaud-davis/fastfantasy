@@ -1,6 +1,7 @@
 import time
 import requests
 from bs4 import BeautifulSoup
+import numpy as np
 
 class TournamentParticipants():
 
@@ -274,6 +275,65 @@ class GolfRound():
         rd_name = rd_name[:rd_name.rfind("-")]
         rd_name = rd_name.replace("-", "_")
         return rd_name
+
+    def missing_round_number(self, scoring_base):
+        """Find missing round number(s) of player during tournament.
+        Ensures that same round number is not used twice.
+
+        Args:
+
+            scoring_base (ResultSet) :  set of player tournament rounds
+
+        Returns:
+
+            m_rx : missing round name (x - dependent of number of rounds missed)
+
+        """
+        rd_check = np.array(["round_1", "round_2", "round_3", "round_4"])
+
+        if len(scoring_base) == 1:
+            rd_z = np.array([self.find_rd_number(scoring_base[0])])
+            missing_rds = np.setdiff1d(rd_check, rd_z)
+            
+            assert len(missing_rds) == 3
+            m_r1 = missing_rds[0]
+            m_r2 = missing_rds[1]
+            m_r3 = missing_rds[2]
+
+            return m_r1, m_r2, m_r3
+
+        elif len(scoring_base) == 2:
+            rd_z = self.find_rd_number(scoring_base[0])
+            rd_y = self.find_rd_number(scoring_base[1])
+            
+            rds = np.array([rd_z, rd_y])
+
+            missing_rds = np.setdiff1d(rd_check, rds)
+
+            assert len(missing_rds) == 2
+            m_r1 = missing_rds[0]
+            m_r2 = missing_rds[1]
+
+            return m_r1, m_r2
+            
+
+        elif len(scoring_base) == 3:
+            rd_z = self.find_rd_number(scoring_base[0])
+            rd_y = self.find_rd_number(scoring_base[1])
+            rd_x = self.find_rd_number(scoring_base[2])
+
+            rds = np.array([rd_z, rd_y, rd_x])
+
+            missing_rds = np.setdiff1d(rd_check, rds)
+
+            assert len(missing_rds) == 1
+            m_r1 = missing_rds[0]
+            
+            return m_r1
+
+        else:
+            print("Incorrect number of rounds given.\n")
+
         
 
 
