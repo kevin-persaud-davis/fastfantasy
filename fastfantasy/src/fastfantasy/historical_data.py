@@ -257,7 +257,9 @@ class GolfRound():
         data = dict(zip(hole_ids, hole_data))
         data_pts = dict(zip(hole_pts_id, hole_data_pts))
         
-        return data, data_pts
+        self.data = data
+        self.data_pts = data_pts
+        
 
 
 class Scorecard():
