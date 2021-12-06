@@ -236,6 +236,30 @@ class GolfRound():
 
         return scoring_data
 
+    def missing_round(self, rd_name):
+        """Fills missing round for player with None entires.
+
+        Args:
+            rd_name (str) : tournament round number
+        
+        Returns:
+            data (dict) : tournament round shot score data.
+
+            data_pts (dict) : tournament round hole score data.
+        
+        """
+        hole_ids = [rd_name + "_" + str(hn) for hn in range(1,19)]
+        hole_pts_id = [h_id + "_pts" for h_id in hole_ids]
+
+        hole_data = [None] * 18
+        hole_data_pts = [None] * 18
+
+        data = dict(zip(hole_ids, hole_data))
+        data_pts = dict(zip(hole_pts_id, hole_data_pts))
+        
+        return data, data_pts
+
+
 class Scorecard():
 
     def __init__(self) -> None:
