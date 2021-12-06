@@ -96,55 +96,32 @@ class TournamentParticipants():
                     h_page = session.get(espn_home_url)
 
 
-# def run_player_scorecard(url):
+def p_scorecard(scorecard_url):
 
-#     espn_home_url = "https://www.espn.com/golf/"
-
-#     t_id = url[url.rfind("=")+1:]
-#     base_url = url
-
-#     if (t_id != "1155") and (t_id != "995"):
-#         with requests.Session() as session:
-
-#             time.sleep(3)
+    with requests.Session() as session:
             
-#             # home_page = session.get(espn_home_url)
+        page = session.get(scorecard_url)
 
-#             page = session.get(base_url)
+        if page.status_code == 200:
 
-#             if page.status_code == 200: 
-#                 print("good url: ", url)
+            soup = BeautifulSoup(page.content, "lxml")
+            base = soup.find_all("div", class_="roundSwap active")
             
-#                 soup = BeautifulSoup(page.content, "html.parser")
-#                 # Table's on webpage. index with -1 in case of playoff table
-#                 tourn_tables = soup.select("div.ResponsiveTable")
+            if base is not None:
+                id_data = {}
 
-#                 if tourn_tables is not None:
-                    
-#                     if len(tourn_tables) == 1 or len(tourn_tables) == 2:
-        
-#                         tourn_table = tourn_tables[-1]
-#                         tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
-                        
-#                         tp = TournamentParticipants()
-#                         tp.set_player_ids(tourn_body)
-#                         print(tp.player_ids)
+                p_id_start = scorecard_url.find("id") + 3
+                p_id_end = scorecard_url.rfind("tournamentId") - 1
 
-#                         tp.set_scorecard_urls(t_id)
-#                         print(tp.player_scorecards)
-                        
-#                     elif len(tourn_tables) == 0:
+                id_data["player_id"] = scorecard_url[p_id_start:p_id_end]
+                id_data["tournament_id"] = scorecard_url[scorecard_url.rfind("/") + 1:]
 
-#                         print(f"error with {url}")
+                scorecard_data = scoring_data(base)
+                player_data = {**id_data, **scorecard_data}
 
-#                         page = session.get(espn_home_url)
-#                         return url
-
-#                     else:
-#                         print(f"Number of tables {len(tourn_tables)} in url {url}")
-
-#             else:
-#                 h_page = session.get(espn_home_url)
+                assert len(player_data) == 146
+                
+                return player_data
 
 
 class Scorecard():
@@ -152,6 +129,20 @@ class Scorecard():
     def __init__(self) -> None:
         pass
 
+    def find_rd_number(self, rd):
+        """Find round number for scorecard
+    
+        Args:
+            rd (element.Tag) : div.roundSwap active. id attr
+                            includes round number
+
+        Returns:
+            tournament round number
+        """
+        rd_name = rd["id"]
+        rd_name = rd_name[:rd_name.rfind("-")]
+        rd_name = rd_name.replace("-", "_")
+        return rd_name
 
 def main():
 
