@@ -45,7 +45,7 @@ class TournamentParticipants():
         if self.player_ids is not None:
             scorecard_front = "https://www.espn.com/golf/player/scorecards/_/id/"
             scorecard_back = "/tournamentId/"
-            self.player_scorecards = [scorecard_front + scorecard_back + t_id
+            self.player_scorecards = [scorecard_front + player + scorecard_back + t_id
                                     for player in self.player_ids]
     
     def run_tournament_scorecards(self, url):
@@ -78,12 +78,9 @@ class TournamentParticipants():
                             tourn_table = tourn_tables[-1]
                             tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
                             
-                            
                             self.set_player_ids(tourn_body)
-                            print(self.player_ids)
-
                             self.set_scorecard_urls(t_id)
-                            print(self.player_scorecards)
+                            
                             
                         elif len(tourn_tables) == 0:
 
@@ -154,7 +151,8 @@ class TournamentParticipants():
 
 def main():
 
-    t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+    t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
+    scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
     # run_player_scorecard(t_url)
 
     tournament = TournamentParticipants()
