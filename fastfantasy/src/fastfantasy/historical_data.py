@@ -217,6 +217,21 @@ class GolfRound():
 
         return shot_data, hole_data
 
+    def missing_data(self, scoring_data):
+        """Fill missing hole entries
+
+        Args:
+            scoring_data (list) : round data with missing entries
+
+        Returns:
+            scoring_data (list) : round data filled
+        """
+        missing_holes = 9 - len(scoring_data)
+        missing_entries = [None] * missing_holes
+        scoring_data.extend(missing_entries)
+        assert len(scoring_data) == 9
+
+        return scoring_data
 
 class Scorecard():
 
