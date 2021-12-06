@@ -340,7 +340,7 @@ class GolfRound():
 class Scorecard():
 
     def __init__(self) -> None:
-        pass
+        self.rds_data = {}
 
     
 
