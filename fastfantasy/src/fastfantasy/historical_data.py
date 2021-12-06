@@ -1,4 +1,4 @@
-
+import time
 import requests
 from bs4 import BeautifulSoup
 
@@ -6,6 +6,7 @@ class TournamentParticipants():
 
     def __init__(self) -> None:
         self.player_ids = []
+        self.player_scorecards = []
 
     def find_player_id(self, player):
         """Find player id
@@ -22,7 +23,7 @@ class TournamentParticipants():
 
         return player[beg:end]
 
-    def get_player_ids(self, t_body):
+    def set_player_ids(self, t_body):
         """Get player ids from tournament body
         
         """
@@ -37,9 +38,131 @@ class TournamentParticipants():
                     p_id = self.find_player_id(p_id_link["href"])
                     player_ids.append(p_id)
 
+        self.player_ids = player_ids
+
+    def set_scorecard_urls(self, t_id):
+        
+        if self.player_ids is not None:
+            scorecard_front = "https://www.espn.com/golf/player/scorecards/_/id/"
+            scorecard_back = "/tournamentId/"
+            self.player_scorecards = [scorecard_front + scorecard_back + t_id
+                                    for player in self.player_ids]
+    
+    def run_tournament_scorecards(self, url):
+
+        espn_home_url = "https://www.espn.com/golf/"
+
+        t_id = url[url.rfind("=")+1:]
+        base_url = url
+
+        if (t_id != "1155") and (t_id != "995"):
+            with requests.Session() as session:
+
+                time.sleep(3)
+                
+                # home_page = session.get(espn_home_url)
+
+                page = session.get(base_url)
+
+                if page.status_code == 200: 
+                    print("good url: ", url)
+                
+                    soup = BeautifulSoup(page.content, "html.parser")
+                    # Table's on webpage. index with -1 in case of playoff table
+                    tourn_tables = soup.select("div.ResponsiveTable")
+
+                    if tourn_tables is not None:
+                        
+                        if len(tourn_tables) == 1 or len(tourn_tables) == 2:
+            
+                            tourn_table = tourn_tables[-1]
+                            tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
+                            
+                            
+                            self.set_player_ids(tourn_body)
+                            print(self.player_ids)
+
+                            self.set_scorecard_urls(t_id)
+                            print(self.player_scorecards)
+                            
+                        elif len(tourn_tables) == 0:
+
+                            print(f"error with {url}")
+
+                            page = session.get(espn_home_url)
+                            return url
+
+                        else:
+                            print(f"Number of tables {len(tourn_tables)} in url {url}")
+
+                else:
+                    h_page = session.get(espn_home_url)
+
+
+# def run_player_scorecard(url):
+
+#     espn_home_url = "https://www.espn.com/golf/"
+
+#     t_id = url[url.rfind("=")+1:]
+#     base_url = url
+
+#     if (t_id != "1155") and (t_id != "995"):
+#         with requests.Session() as session:
+
+#             time.sleep(3)
+            
+#             # home_page = session.get(espn_home_url)
+
+#             page = session.get(base_url)
+
+#             if page.status_code == 200: 
+#                 print("good url: ", url)
+            
+#                 soup = BeautifulSoup(page.content, "html.parser")
+#                 # Table's on webpage. index with -1 in case of playoff table
+#                 tourn_tables = soup.select("div.ResponsiveTable")
+
+#                 if tourn_tables is not None:
+                    
+#                     if len(tourn_tables) == 1 or len(tourn_tables) == 2:
+        
+#                         tourn_table = tourn_tables[-1]
+#                         tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
+                        
+#                         tp = TournamentParticipants()
+#                         tp.set_player_ids(tourn_body)
+#                         print(tp.player_ids)
+
+#                         tp.set_scorecard_urls(t_id)
+#                         print(tp.player_scorecards)
+                        
+#                     elif len(tourn_tables) == 0:
+
+#                         print(f"error with {url}")
+
+#                         page = session.get(espn_home_url)
+#                         return url
+
+#                     else:
+#                         print(f"Number of tables {len(tourn_tables)} in url {url}")
+
+#             else:
+#                 h_page = session.get(espn_home_url)
+
+
+
 
 def main():
-    pass
+
+    t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3802"
+    # run_player_scorecard(t_url)
+
+    tournament = TournamentParticipants()
+
+    tournament.run_tournament_scorecards(t_url)
+
+    
+
 
 if __name__ == "__main__":
     main()
