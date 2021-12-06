@@ -159,14 +159,14 @@ class GolfRound():
             # Disregard totals
             rd_front = rd_front_total[:-1]
             
-            front_shot_data, front_hole_data = get_round_scores(rd_front)
+            front_shot_data, front_hole_data = self.set_nine_holes(rd_front)
 
             f_labeled_data = dict(zip(front_hole_ids, front_shot_data)) 
             f_labeled_data_pts = dict(zip(front_pts_id, front_hole_data))
             
         else:
             rd_front = rd_front_total
-            front_shot_data, front_hole_data = get_round_scores(rd_front)
+            front_shot_data, front_hole_data = self.set_nine_holes(rd_front)
             
             f_labeled_data = dict(zip(front_hole_ids, front_shot_data))
             f_labeled_data_pts = dict(zip(front_pts_id, front_hole_data))
@@ -174,14 +174,14 @@ class GolfRound():
         if len(rd_back_total) == 10:
             rd_back = rd_back_total[:-1]
             
-            back_shot_data, back_hole_data = get_round_scores(rd_back)
+            back_shot_data, back_hole_data = self.set_nine_holes(rd_back)
 
             b_labeled_data = dict(zip(back_hole_ids, back_shot_data))
             b_labeled_data_pts = dict(zip(back_pts_id, back_hole_data))
             
         else:
             rd_back = rd_back_total
-            back_shot_data, back_hole_data = get_round_scores(rd_back)
+            back_shot_data, back_hole_data = self.set_nine_holes(rd_back)
             
             b_labeled_data = dict(zip(back_hole_ids, back_shot_data))
             b_labeled_data_pts = dict(zip(back_pts_id, back_hole_data))
@@ -190,7 +190,9 @@ class GolfRound():
         data = {**f_labeled_data, **b_labeled_data}
         data_pts = {**f_labeled_data_pts, **b_labeled_data_pts}
 
-        return data, data_pts
+        self.data = data
+        self.data_pts = data_pts
+        # return data, data_pts
 
     def set_nine_holes(self, rd_scores):
         """Get player scores, both shot and hole data, for 9 holes
@@ -210,11 +212,11 @@ class GolfRound():
 
         if len(shot_data) != 9:
             
-            shot_data = missing_data(shot_data)
+            shot_data = self.missing_data(shot_data)
         
         if len(hole_data) != 9:
 
-            hole_data = missing_data(hole_data)
+            hole_data = self.missing_data(hole_data)
 
         return shot_data, hole_data
 
