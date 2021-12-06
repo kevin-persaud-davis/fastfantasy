@@ -123,6 +123,10 @@ def p_scorecard(scorecard_url):
                 
                 return player_data
 
+class GolfRound():
+
+    def __init__(self) -> None:
+        pass
 
 class Scorecard():
 
