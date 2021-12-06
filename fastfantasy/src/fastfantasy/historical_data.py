@@ -147,6 +147,10 @@ class TournamentParticipants():
 #                 h_page = session.get(espn_home_url)
 
 
+class Scorecard():
+
+    def __init__(self) -> None:
+        pass
 
 
 def main():
