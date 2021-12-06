@@ -259,13 +259,6 @@ class GolfRound():
         
         self.data = data
         self.data_pts = data_pts
-        
-
-
-class Scorecard():
-
-    def __init__(self) -> None:
-        pass
 
     def find_rd_number(self, rd):
         """Find round number for scorecard
@@ -281,6 +274,15 @@ class Scorecard():
         rd_name = rd_name[:rd_name.rfind("-")]
         rd_name = rd_name.replace("-", "_")
         return rd_name
+        
+
+
+class Scorecard():
+
+    def __init__(self) -> None:
+        pass
+
+    
 
 def main():
 
