@@ -343,6 +343,70 @@ class Scorecard():
     def __init__(self) -> None:
         self.rds_data = {}
 
+def round_data(round_base, rd_name):
+    """Get player data for specific round in tournament
+
+    Args:
+        round_base (element.Tag) : tournament round data
+    
+    Returns:
+        data (dict) : tournament round shot score data. item entries 
+                    contain ints to reflect scoring data
+
+        data_pts (dict) : tournament round hole score data. item entries
+                    contain strs to reflect scoring data
+
+    """
+    front_hole_ids = [rd_name + "_" + str(hn) for hn in range(1,10)]
+    back_hole_ids = [rd_name + "_" + str(hn) for hn in range(10, 19)]
+    
+    front_pts_id = [h_id + "_pts" for h_id in front_hole_ids]
+    back_pts_id = [h_id + "_pts" for h_id in back_hole_ids]
+    
+    rd_body = round_base.find_all("tr", class_="oddrow")
+    
+    rd_front_total = rd_body[-2].find_all("td", class_="textcenter")
+    
+    rd_back_total = rd_body[-1].find_all("td", class_="textcenter")
+    
+    if len(rd_front_total) == 10:
+        # Disregard totals
+        rd_front = rd_front_total[:-1]
+        
+        front_shot_data, front_hole_data = get_round_scores(rd_front)
+
+        f_labeled_data = dict(zip(front_hole_ids, front_shot_data)) 
+        f_labeled_data_pts = dict(zip(front_pts_id, front_hole_data))
+        
+    else:
+        rd_front = rd_front_total
+        front_shot_data, front_hole_data = get_round_scores(rd_front)
+        
+        f_labeled_data = dict(zip(front_hole_ids, front_shot_data))
+        f_labeled_data_pts = dict(zip(front_pts_id, front_hole_data))
+
+    if len(rd_back_total) == 10:
+        rd_back = rd_back_total[:-1]
+        
+        back_shot_data, back_hole_data = get_round_scores(rd_back)
+
+        b_labeled_data = dict(zip(back_hole_ids, back_shot_data))
+        b_labeled_data_pts = dict(zip(back_pts_id, back_hole_data))
+        
+    else:
+        rd_back = rd_back_total
+        back_shot_data, back_hole_data = get_round_scores(rd_back)
+        
+        b_labeled_data = dict(zip(back_hole_ids, back_shot_data))
+        b_labeled_data_pts = dict(zip(back_pts_id, back_hole_data))
+    
+    
+    data = {**f_labeled_data, **b_labeled_data}
+    data_pts = {**f_labeled_data_pts, **b_labeled_data_pts}
+
+    return data, data_pts
+
+
 def find_rd_number(rd):
     """Find round number for scorecard
     
