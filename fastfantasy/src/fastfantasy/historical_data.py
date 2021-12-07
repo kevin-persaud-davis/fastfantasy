@@ -343,6 +343,33 @@ class Scorecard():
     def __init__(self) -> None:
         self.rds_data = {}
 
+def get_round_scores(rd):
+    """Get player scores, both shot and hole data, for 9 holes
+
+    Args:
+        rd (list) : player 9 hole scoring data
+    
+    Returns:
+        shot_data (list) : shot data for 9 holes
+
+        hole_data (list) : hole data for 9 holes 
+
+    """
+
+    shot_data = [int(score.text) if score.text else None for score in rd ]
+    hole_data = [score["class"][0] if score["class"][0] != "textcenter" else None for score in rd]
+
+    if len(shot_data) != 9:
+        
+        shot_data = missing_data(shot_data)
+    
+    if len(hole_data) != 9:
+
+        hole_data = missing_data(hole_data)
+
+    return shot_data, hole_data
+
+
 def round_data(round_base, rd_name):
     """Get player data for specific round in tournament
 
