@@ -343,6 +343,81 @@ class Scorecard():
     def __init__(self) -> None:
         self.rds_data = {}
 
+def player_scorecard(scorecard_url):
+    """Get espn player scorecard for a specific tournament.
+
+    Args:
+        scorecard_url (str) : espn url
+    
+    Returns:
+        player scoring data for tournament
+
+    """
+    with requests.Session() as session:
+            
+        page = session.get(scorecard_url)
+
+        if page.status_code == 200:
+
+            soup = BeautifulSoup(page.content, "lxml")
+            base = soup.find_all("div", class_="roundSwap active")
+            
+            if base is not None:
+                id_data = {}
+
+                p_id_start = scorecard_url.find("id") + 3
+                p_id_end = scorecard_url.rfind("tournamentId") - 1
+
+                id_data["player_id"] = scorecard_url[p_id_start:p_id_end]
+                id_data["tournament_id"] = scorecard_url[scorecard_url.rfind("/") + 1:]
+
+                scorecard_data = scoring_data(base)
+                player_data = {**id_data, **scorecard_data}
+
+                assert len(player_data) == 146
+                
+                return player_data
+        else:
+            id_data = {}
+
+            p_id_start = scorecard_url.find("id") + 3
+            p_id_end = scorecard_url.rfind("tournamentId") - 1
+
+            id_data["player_id"] = scorecard_url[p_id_start:p_id_end]
+            id_data["tournament_id"] = scorecard_url[scorecard_url.rfind("/") + 1:]
+
+            scorecard_data = {}
+
+            if id_data["player_id"] == "4686086" and id_data["tournament_id"] == "401155472":
+                scorecard_data = handle_bad_page(id_data)
+
+            if id_data["player_id"] == "4686087" and id_data["tournament_id"] == "401155472":
+                scorecard_data = handle_bad_page(id_data)
+
+
+            if scorecard_data:
+
+                player_data = {**id_data, **scorecard_data}
+            else:
+                rd_1_data, rd_1_data_pts = missing_round("round_1")
+        
+                rd_2_data, rd_2_data_pts = missing_round("round_2")
+
+                rd_3_data, rd_3_data_pts = missing_round("round_3")
+                
+                rd_4_data, rd_4_data_pts = missing_round("round_4")
+
+                rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                            **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+
+                assert len(rds_data) == 144
+
+                player_data = {**id_data, **rds_data}
+
+            assert len(player_data) == 146
+                
+            return player_data
+
     
 def fetch_scorecard_data(url):
 
@@ -351,7 +426,7 @@ def fetch_scorecard_data(url):
 
     player_urls = tournament.player_scorecards
 
-    player_data = [player_scorecard_data(player) for player in player_urls]
+    player_data = [player_scorecard(player) for player in player_urls]
     print("\nNumber of players: ", len(player_data))
     
 
