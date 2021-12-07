@@ -1124,7 +1124,7 @@ def fetch_scorecard_data(url):
 
     player_data = [player_scorecard(player) for player in player_urls]
     print("\nNumber of players: ", len(player_data))
-    
+    return player_data
 
 def main():
 
