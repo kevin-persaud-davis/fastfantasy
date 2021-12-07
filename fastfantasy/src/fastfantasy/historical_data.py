@@ -1,3 +1,4 @@
+from csv import DictWriter
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -1125,6 +1126,46 @@ def fetch_scorecard_data(url):
     player_data = [player_scorecard(player) for player in player_urls]
     print("\nNumber of players: ", len(player_data))
     return player_data
+
+
+def write_tournament_data(tournament_url, f_path):
+    """Write historical tournament data to disk
+
+    Args:
+        tournament_url (str) : espn tournament
+
+    """
+    # Get data for file
+    tourn_data = fetch_scorecard_data(tournament_url)
+
+    # Create columns for csv file
+    tournament_ids = ["player_id", "tournament_id"]
+    rd_nums = ["1_", "2_", "3_", "4_"]
+    rd_ids = ["round_" + rd_num + str(i) for rd_num in rd_nums for i in range(1,19)]
+    rd_pt_ids = [ids + "_pts" for ids in rd_ids]
+
+    tournament_ids.extend(rd_ids)
+    tournament_ids.extend(rd_pt_ids)
+
+    fields = tournament_ids
+
+    # Create unique file path from tournament id
+    t_id = tournament_url[tournament_url.rfind("=")+1:]
+    fn = t_id + ".csv"
+
+    with open (f_path, "w", newline="") as csvfile:
+        writer = DictWriter(csvfile, fieldnames=fields)
+        writer.writeheader()
+         
+        if tourn_data is not None:
+
+            writer.writerows(tourn_data)
+        else:
+            print(f"The tourn data is None: {tourn_data}")
+    
+    msg = f"Finished {t_id}"
+    return msg
+
 
 def main():
 
