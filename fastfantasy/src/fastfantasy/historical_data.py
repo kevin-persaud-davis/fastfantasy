@@ -1055,7 +1055,7 @@ def player_scorecard(scorecard_url):
 
         if page.status_code == 200:
 
-            soup = BeautifulSoup(page.content, "lxml")
+            soup = BeautifulSoup(page.content, "html.parser")
             base = soup.find_all("div", class_="roundSwap active")
             
             if base is not None:
@@ -1132,12 +1132,7 @@ def main():
     scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
     # run_player_scorecard(t_url)
 
-    tournament = TournamentParticipants()
-
-    tournament.run_tournament_scorecards(t_url)
-
-    
-    print(tournament.player_scorecards)
+    fetch_scorecard_data(t_url)
 
 
 if __name__ == "__main__":
