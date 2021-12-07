@@ -343,6 +343,166 @@ class Scorecard():
     def __init__(self) -> None:
         self.rds_data = {}
 
+def scoring_data(scoring_base):
+    """Get player scoring data for each round in tournament
+
+    Args:
+        scoring_base (ResultSet) : set of player tournament rounds. Length
+                            reflects number of rounds played in tournament.
+    
+    Returns:
+        round data containing player id, tourn id, and tourn scoring data
+ 
+    """
+
+  
+    if len(scoring_base) == 0:
+        
+        rd_1_data, rd_1_data_pts = missing_round("round_1")
+        
+        rd_2_data, rd_2_data_pts = missing_round("round_2")
+
+        rd_3_data, rd_3_data_pts = missing_round("round_3")
+        
+        rd_4_data, rd_4_data_pts = missing_round("round_4")
+
+        rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                    **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+
+        assert len(rds_data) == 144
+        return rds_data
+
+    elif len(scoring_base) == 1:
+        
+        round_1 = find_rd_number(scoring_base[0])
+        m_rd1, m_rd2, m_rd3 = missing_round_number(scoring_base)
+
+        
+
+        rd_1 = scoring_base[0]
+        rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
+
+        rd_2_data, rd_2_data_pts = missing_round(m_rd1)
+        rd_3_data, rd_3_data_pts = missing_round(m_rd2)
+        rd_4_data, rd_4_data_pts = missing_round(m_rd3)
+        
+
+        rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                    **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+
+        
+        assert len(rds_data) == 144
+        return rds_data
+
+    elif len(scoring_base) == 2:
+        # missed cut
+
+        round_1 = find_rd_number(scoring_base[1])
+        round_2 = find_rd_number(scoring_base[0])
+
+        m_rd1, m_rd2 = missing_round_number(scoring_base)
+        
+
+        rd_1 = scoring_base[1]
+        rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
+        
+        rd_2 = scoring_base[0]
+        rd_2_data, rd_2_data_pts = round_data(rd_2, round_2)
+
+        rd_3_data, rd_3_data_pts = missing_round(m_rd1)
+        rd_4_data, rd_4_data_pts = missing_round(m_rd2)
+
+        rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                    **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+        
+        assert len(rds_data) == 144
+        return rds_data
+
+    elif len(scoring_base) == 3:
+
+        m_rd = missing_round_number(scoring_base)
+
+        round_1 = find_rd_number(scoring_base[2])
+        round_2 = find_rd_number(scoring_base[1])
+        round_3 = find_rd_number(scoring_base[0])
+
+
+        rd_1 = scoring_base[2]
+        rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
+
+        rd_2 = scoring_base[1]
+        rd_2_data, rd_2_data_pts = round_data(rd_2, round_2)
+
+        rd_3 = scoring_base[0]
+        rd_3_data, rd_3_data_pts = round_data(rd_3, round_3)
+
+        rd_4_data, rd_4_data_pts = missing_round(m_rd)
+
+        rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                    **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+
+        assert len(rds_data) == 144
+        return rds_data
+
+    elif len(scoring_base) == 4:
+        
+        round_1 = find_rd_number(scoring_base[3])
+        round_2 = find_rd_number(scoring_base[2])
+        round_3 = find_rd_number(scoring_base[1])
+        round_4 = find_rd_number(scoring_base[0])
+
+        rd_1 = scoring_base[3]
+        rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
+        
+        rd_2 = scoring_base[2]
+        rd_2_data, rd_2_data_pts = round_data(rd_2, round_2)
+
+        rd_3 = scoring_base[1]
+        rd_3_data, rd_3_data_pts = round_data(rd_3, round_3)
+
+        rd_4 = scoring_base[0]
+        rd_4_data, rd_4_data_pts = round_data(rd_4, round_4)
+
+        
+
+        rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                    **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+        
+        assert len(rds_data) == 144
+        return rds_data
+
+    elif len(scoring_base) == 5:
+        # playoff round
+        round_1 = find_rd_number(scoring_base[4])
+        round_2 = find_rd_number(scoring_base[3])
+        round_3 = find_rd_number(scoring_base[2])
+        round_4 = find_rd_number(scoring_base[1])
+        
+        rd_1 = scoring_base[4]
+        rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
+        
+        rd_2 = scoring_base[3]
+        rd_2_data, rd_2_data_pts = round_data(rd_2, round_2)
+
+        
+        rd_3 = scoring_base[2]
+        rd_3_data, rd_3_data_pts = round_data(rd_3, round_3)
+
+        rd_4 = scoring_base[1]
+        rd_4_data, rd_4_data_pts = round_data(rd_4, round_4)
+
+
+        rds_data = {**rd_1_data, **rd_2_data, **rd_3_data, **rd_4_data,
+                    **rd_1_data_pts, **rd_2_data_pts, **rd_3_data_pts, **rd_4_data_pts}
+        
+        
+        assert len(rds_data) == 144
+        return rds_data
+
+    else:
+        print(len(scoring_base), " incorrect number of rounds\n")
+
+
 def player_scorecard(scorecard_url):
     """Get espn player scorecard for a specific tournament.
 
