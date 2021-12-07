@@ -1,3 +1,7 @@
+from pathlib import Path
+import sys
+sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\fastfantasy\\config")
+import config
 from csv import DictWriter
 import time
 import requests
@@ -1128,7 +1132,7 @@ def fetch_scorecard_data(url):
     return player_data
 
 
-def write_tournament_data(tournament_url, f_path):
+def write_tournament_data(tournament_url, f_path="raw"):
     """Write historical tournament data to disk
 
     Args:
@@ -1173,8 +1177,8 @@ def main():
     scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
     # run_player_scorecard(t_url)
 
-    fetch_scorecard_data(t_url)
-
+    f_dest = "raw"
+    write_tournament_data(t_url, f_dest)
 
 if __name__ == "__main__":
     main()
