@@ -343,6 +343,21 @@ class Scorecard():
     def __init__(self) -> None:
         self.rds_data = {}
 
+def find_rd_number(rd):
+    """Find round number for scorecard
+    
+    Args:
+        rd (element.Tag) : div.roundSwap active. id attr
+                        includes round number
+
+    Returns:
+        tournament round number
+    """
+    rd_name = rd["id"]
+    rd_name = rd_name[:rd_name.rfind("-")]
+    rd_name = rd_name.replace("-", "_")
+    return rd_name
+
 
 def missing_round(rd_name):
     """Fills missing round for player with None entires.
