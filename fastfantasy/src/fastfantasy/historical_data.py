@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import sys
 sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\fastfantasy\\config")
@@ -1156,7 +1157,8 @@ def write_tournament_data(tournament_url, f_path="raw"):
     # Create unique file path from tournament id
     t_id = tournament_url[tournament_url.rfind("=")+1:]
     fn = t_id + ".csv"
-
+    f_path = Path(config.RAW_DATA_DIR, fn)
+    assert os.path.isfile(f_path)
     with open (f_path, "w", newline="") as csvfile:
         writer = DictWriter(csvfile, fieldnames=fields)
         writer.writeheader()
