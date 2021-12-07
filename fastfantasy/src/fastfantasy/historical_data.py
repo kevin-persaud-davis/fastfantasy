@@ -343,6 +343,23 @@ class Scorecard():
     def __init__(self) -> None:
         self.rds_data = {}
 
+def missing_data(scoring_data):
+    """Fill missing hole entries
+
+    Args:
+        scoring_data (list) : round data with missing entries
+
+    Returns:
+        scoring_data (list) : round data filled
+    """
+    missing_holes = 9 - len(scoring_data)
+    missing_entries = [None] * missing_holes
+    scoring_data.extend(missing_entries)
+    assert len(scoring_data) == 9
+
+    return scoring_data
+
+
 def get_round_scores(rd):
     """Get player scores, both shot and hole data, for 9 holes
 
