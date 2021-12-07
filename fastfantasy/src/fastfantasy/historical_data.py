@@ -344,7 +344,15 @@ class Scorecard():
         self.rds_data = {}
 
     
+def fetch_scorecard_data(url):
 
+    tournament = TournamentParticipants()
+    tournament.run_tournament_scorecards(url)
+
+    player_urls = tournament.player_scorecards
+
+    player_data = [player_scorecard_data(player) for player in player_urls]
+    print("\nNumber of players: ", len(player_data))
     
 
 def main():
