@@ -334,6 +334,7 @@ class GolfRound():
         else:
             print("Incorrect number of rounds given.\n")
 
+    
         
 
 
@@ -341,6 +342,8 @@ class Scorecard():
 
     def __init__(self) -> None:
         self.rds_data = {}
+
+    
 
     
 
@@ -355,6 +358,7 @@ def main():
     tournament.run_tournament_scorecards(t_url)
 
     
+    print(tournament.player_scorecards)
 
 
 if __name__ == "__main__":
