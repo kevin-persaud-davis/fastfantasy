@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
 import sys
-sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\config")
-import config
 from csv import DictWriter
 import time
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
