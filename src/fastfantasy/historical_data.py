@@ -1,13 +1,16 @@
 import os
 from pathlib import Path
 import sys
-sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\fastfantasy\\config")
+sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\config")
 import config
 from csv import DictWriter
 import time
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
+import pandas as pd
 
 class TournamentParticipants():
 
@@ -35,7 +38,7 @@ class TournamentParticipants():
         
         """
         player_ids = []
-        players = t_body.find_all("tr", class_="Table__TR Table__even")
+        players = t_body.find_all("tr")
         if players is not None:
             for player in players:
                 p_id_link = player.find("a")
@@ -84,7 +87,6 @@ class TournamentParticipants():
             
                             tourn_table = tourn_tables[-1]
                             tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
-                            
                             self.set_player_ids(tourn_body)
                             self.set_scorecard_urls(t_id)
                             
@@ -1172,15 +1174,52 @@ def write_tournament_data(tournament_url, f_path="raw"):
     msg = f"Finished {t_id}"
     return msg
 
+def parallel_tournament_data(tournament_urls):
+    futures_list = []
+    results = []
+    MAX_WORKERS = 8
+    m_workers = min(MAX_WORKERS, len(tournament_urls))
+    with ProcessPoolExecutor(max_workers=m_workers) as executor:
+        for url in tournament_urls:
+            futures = executor.submit(write_tournament_data, url)
+            futures_list.append(futures)
+
+        for future in futures_list:
+            try:
+                result = future.result()
+                results.append(result)
+            except Exception as exc:
+                # print(f"{result} generated an excpetion {exc}")
+                results.append(None)
+        return results
+
 
 def main():
 
     t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
+    t2_url = "https://www.espn.com/golf/leaderboard?tournamentId=3763"
     scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
     # run_player_scorecard(t_url)
 
-    f_dest = "raw"
-    write_tournament_data(t_url, f_dest)
+    # fetch_scorecard_data(t_url)
+    # f_dest = "raw"
+    # write_tournament_data(t_url)
+
+
+    tourn_path = Path(config.PROCESSED_DATA_DIR, "valid_tournaments.csv")
+    tourn_df = pd.read_csv(tourn_path)
+    
+    base_url = "https://www.espn.com/golf/leaderboard?tournamentId="
+
+    tourn_df["url"] = tourn_df["tournament_id"].apply(lambda x: base_url + str(x))
+
+    urls = tourn_df["url"].tolist()
+
+    parallel_tournament_data(urls)
+
+    
+
+
 
 if __name__ == "__main__":
     main()
