@@ -1158,7 +1158,7 @@ def write_tournament_data(tournament_url, f_path="raw"):
     # Create unique file path from tournament id
     t_id = tournament_url[tournament_url.rfind("=")+1:]
     fn = t_id + ".csv"
-    f_path = Path(config.RAW_DATA_DIR, fn)
+    f_path = Path(path_config.DATA_RAW, fn)
     
     with open (f_path, "w", newline="") as csvfile:
         writer = DictWriter(csvfile, fieldnames=fields)
@@ -1205,7 +1205,7 @@ def main():
     # write_tournament_data(t_url)
 
 
-    tourn_path = Path(config.PROCESSED_DATA_DIR, "valid_tournaments.csv")
+    tourn_path = Path(path_config.DATA_PROCESSED, "valid_tournaments_2018.csv")
     tourn_df = pd.read_csv(tourn_path)
     
     base_url = "https://www.espn.com/golf/leaderboard?tournamentId="
