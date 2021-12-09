@@ -1267,6 +1267,12 @@ def parallel_historical_runner(start, end=None):
 
     return missed_tourns
 
+def clean_up_runner(tournaments):
+
+    for tourn in tournaments:
+        missed_result = write_tournament_data(tourn)
+        print(missed_result)
+
 def main():
 
     t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
