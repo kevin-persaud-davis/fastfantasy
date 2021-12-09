@@ -1,10 +1,12 @@
+import os
 from pathlib import Path
 import sys
-sys.path.append("c:\\Users\\kpdav\\machine_learning\\projects\\fastfantasy\\fastfantasy\\config")
-import config
+from time import strptime
+import path_config
+
 import requests
 from bs4 import BeautifulSoup
-from time import strptime
+
 import pandas as pd
 
 class EspnTournament():
@@ -342,9 +344,11 @@ class EspnSeason():
         b_url = "https://www.espn.com/golf/schedule/_/season/"
         if end is not None:
             season_urls = [b_url + str(season) for season in range(start, end+1)]
+            self.end = end
         else:
             season_urls = [f"{b_url}{start}"]
-
+        
+        self.start = start
         self.season_urls = season_urls
         self.season_data = []
     
@@ -492,20 +496,15 @@ class EspnSeason():
             df["tournament_date"] = pd.to_datetime(df["tournament_date"])
             df.sort_values(by=["tournament_date", "season_id"], inplace=True)
 
-            f_path = str(Path(config.RAW_DATA_DIR, "espn_tournaments.csv"))
-            file_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
+            if self.end is not None:
 
-            # need to add check of current season range to make sure no duplicates are appended to file
-
-            # Might just delete below since it is more up to the user's choice of how they want to handle
-            # the data
-
-            if file_path.is_file():
-                print(type(file_path), file_path)
-                df.to_csv(file_path, index=False, mode="a")
+                f_name = f"espn_tournaments_{self.start}_{self.end}.csv"
             else:
+                f_name = f"espn_tournaments_{self.start}.csv"
 
-                df.to_csv(file_path, index=False)
+            file_path = Path(path_config.DATA_RAW, f_name)
+
+            df.to_csv(file_path, index=False)
 
             return df
 
@@ -582,14 +581,16 @@ def main():
     
     e_season = EspnSeason(2018)
     
-    f_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
-    df = pd.read_csv(f_path, date_parser=["tournament_date"])
+    
+    
+    # f_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
+    # df = pd.read_csv(f_path, date_parser=["tournament_date"])
 
     
 
-    clean_tourn = CleanTournaments(df)
-    clean_tourn.save_cleaned_tournaments("valid_tournaments.csv")
-    print(clean_tourn.cleaned_df.shape)
+    # clean_tourn = CleanTournaments(df)
+    # clean_tourn.save_cleaned_tournaments("valid_tournaments.csv")
+    # print(clean_tourn.cleaned_df.shape)
     
 if __name__ == "__main__":
     main()
