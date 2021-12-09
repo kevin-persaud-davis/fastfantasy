@@ -4,6 +4,7 @@ import sys
 from csv import DictWriter
 import time
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import path_config
 
 import requests
 from bs4 import BeautifulSoup
