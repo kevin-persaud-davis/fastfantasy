@@ -1192,6 +1192,37 @@ def parallel_tournament_data(tournament_urls):
                 results.append(None)
         return results
 
+def get_espn_tournaments(start, end=None, all_tournaments=False):
+    """Get espn tournaments for given season(s).
+
+    Notes:
+    if all_tournaments is left as False, the dataframe of tournaments
+    will contain only valid tournamets. Otherwise tournaments that have
+    not been cancelled will be given (this includes tournaments of match play,
+    charity events, etc.)
+
+    Args:
+        start (int) : starting pga season
+        end (int) : ending pga season, optional
+        all_tournaments (bool) : get all or valid tournaments
+
+    Returns:
+        dataframe of tournaments for specified season(s)
+    """
+    if all_tournaments:
+        pass
+    else:
+        # Create check for valid file / search for file with given start and end input.
+        valid_tournaments_path = (Path(path_config, "valid_tournaments_2018.csv"))
+        df = pd.read_csv(valid_tournaments_path,  date_parser=["date"])
+
+    if end is not None:
+        season_df = df[(df.season_id >= start) & (df.season_id <= end)]
+
+    else:
+        season_df = df[df.season_id == start]
+
+    return season_df
 
 def main():
 
