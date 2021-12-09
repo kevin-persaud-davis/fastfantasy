@@ -347,6 +347,7 @@ class EspnSeason():
             self.end = end
         else:
             season_urls = [f"{b_url}{start}"]
+            self.end = None
         
         self.start = start
         self.season_urls = season_urls
@@ -582,6 +583,9 @@ def main():
     e_season = EspnSeason(2018)
     
     
+    e_season.retrieve_all_seasons()
+
+    e_season.feed_season_data()
     
     # f_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
     # df = pd.read_csv(f_path, date_parser=["tournament_date"])
