@@ -574,6 +574,25 @@ class CleanTournaments():
 
         self.cleaned_df.to_csv(cleaned_tourn_path, index=False)
 
+def tournament_runner(start, end=None):
+
+    if end is not None:
+        e_season = EspnSeason(start, end)
+    else:
+        e_season = EspnSeason(start)
+
+    e_season.retrieve_all_seasons()
+
+    tourn_df = e_season.feed_season_data()
+
+    if e_season.end is not None:
+        clean_end = e_season.end
+        clean_fn = f"valid_tournaments_{e_season.start}_{clean_end}.csv"
+    else:
+        clean_fn = f"valid_tournaments_{e_season.start}.csv"
+
+    clean_tourn = CleanTournaments(tourn_df)
+    clean_tourn.save_cleaned_tournaments(clean_fn) 
 
 def main():
     
