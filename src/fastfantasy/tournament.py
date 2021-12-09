@@ -570,7 +570,7 @@ class CleanTournaments():
 
             self.filter_tournaments()
 
-        cleaned_tourn_path = str(Path(config.PROCESSED_DATA_DIR, save_fname))
+        cleaned_tourn_path = (Path(path_config.DATA_PROCESSED, save_fname))
 
         self.cleaned_df.to_csv(cleaned_tourn_path, index=False)
 
@@ -586,6 +586,7 @@ def main():
     e_season.retrieve_all_seasons()
 
     e_season.feed_season_data()
+
     
     # f_path = Path(config.RAW_DATA_DIR, "espn_tournaments.csv")
     # df = pd.read_csv(f_path, date_parser=["tournament_date"])
