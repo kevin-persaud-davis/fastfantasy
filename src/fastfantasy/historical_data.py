@@ -1223,21 +1223,21 @@ class MergeTournaments():
             files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files]
             combined_files = pd.concat([pd.read_csv(f) for f in files])
 
-        return combined_files
+        self.merge_df = combined_files
 
-    def tournament_date_col(self, df, tournament_df):
+    def tournament_date_col(self, tournament_df):
         """Create date column through tournament id mapping
 
         Parameters:
             df (pd.Dataframe)
             tournament_df (pd.Dataframe)
         """
-        date_col = df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
+        date_col = self.merge_df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
 
         idx = 2
-        df.insert(loc=idx, column="date", value=date_col)
+        self.merge_df.insert(loc=idx, column="date", value=date_col)
 
-    def run_date_transformation(self, df):
+    def run_date_transformation(self):
         """Run and save date transformations for historical player data
         
         Args:
@@ -1249,7 +1249,7 @@ class MergeTournaments():
         espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
         espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["date"])
 
-        tournament_date_col(df, espn_tourns_df)       
+        tournament_date_col(espn_tourns_df)       
 
 def main():
 
