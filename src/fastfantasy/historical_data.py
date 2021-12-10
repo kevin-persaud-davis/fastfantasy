@@ -991,10 +991,10 @@ class DataRunner():
         if end is not None:
             self.end = end
             self.start = start
-            tournaments_df = get_espn_tournaments(start, end)
+            tournaments_df = get_espn_tournaments()
         else:
             self.start = start
-            tournaments_df = get_espn_tournaments(start)
+            tournaments_df = get_espn_tournaments()
 
         print(f"Number of tournaments: {tournaments_df.shape[0]}")
 
