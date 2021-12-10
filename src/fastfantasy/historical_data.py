@@ -1183,6 +1183,10 @@ def merge_tournaments(f_pattern, f_name):
     # # else:
     #     merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
 
+class MergeTournaments():
+
+    def __init__(self) -> None:
+        pass
 
 
 def main():
