@@ -956,7 +956,7 @@ class DataRunner():
         self.missed_tourns = []
         self.season_df = pd.DataFrame()
 
-    def get_espn_tournaments(self, start, end=None):
+    def get_espn_tournaments(self):
         
         if end is not None:
 
