@@ -4,6 +4,7 @@ import sys
 from csv import DictWriter
 import time
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import fnmatch
 import path_config
 
 import requests
@@ -1292,6 +1293,22 @@ def combine_files(root, pattern=None):
         combined_files = pd.concat([pd.read_csv(f) for f in files])
 
     return combined_files
+
+def run_date_transformation(df):
+    """Run and save date transformations for historical player data
+    
+    Args:
+        df (pd.DataFrame) : historical player data
+    """
+    # f_path = str(Path(config.PROCESSED_HISTORICAL_DIR, "hpd_2017_2020.csv"))
+    # historical_data_df = pd.read_csv(f_path)
+
+    espn_tourn_path = (Path(path_config.DATA_RAW, "espn_tournaments_2018.csv"))
+    espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["date"])
+
+    tournament_date_col(df, espn_tourns_df)
+
+    # historical_data_df.to_csv(f_path)
 
 def main():
 
