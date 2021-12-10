@@ -1322,6 +1322,25 @@ def tournament_date_col(df, tournament_df):
     idx = 2
     df.insert(loc=idx, column="date", value=date_col)
 
+def merge_tournaments(f_pattern, f_name):
+    """Merge espn tournmants
+    
+    Args:
+        f_pattern (str) : pattern criteria to match for files
+        
+        f_name (str) : file name for merged tournaments
+        
+    """
+    f_path = Path(path_config.DATA_RAW)
+    merged_data = combine_files(f_path, f_pattern)
+
+    merged_path = Path(path_config.DATA_PROCESSED, f_name)
+    if os.path.isfile(merged_path):
+        # file exists so no need for headers
+        merged_data.to_csv(merged_path, mode="a", header=False, index=False, date_format="%Y-%m-%d")
+    else:
+        merged_data.to_csv(merged_path, mode="a", header=True, index=False, date_format="%Y-%m-%d")
+
 def main():
 
     t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
@@ -1334,18 +1353,7 @@ def main():
     # write_tournament_data(t_url)
 
 
-    tourn_path = Path(path_config.DATA_PROCESSED, "valid_tournaments_2018.csv")
-    tourn_df = pd.read_csv(tourn_path)
-    
-    base_url = "https://www.espn.com/golf/leaderboard?tournamentId="
-
-    tourn_df["url"] = tourn_df["tournament_id"].apply(lambda x: base_url + str(x))
-
-    urls = tourn_df["url"].tolist()
-
-    parallel_tournament_data(urls)
-
-    
+        
 
 
 
