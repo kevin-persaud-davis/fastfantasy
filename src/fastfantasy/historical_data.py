@@ -1234,7 +1234,21 @@ class MergeTournaments():
         date_col = df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
 
         idx = 2
-        df.insert(loc=idx, column="date", value=date_col)        
+        df.insert(loc=idx, column="date", value=date_col)
+
+    def run_date_transformation(self, df):
+        """Run and save date transformations for historical player data
+        
+        Args:
+            df (pd.DataFrame) : historical player data
+        """
+        # f_path = str(Path(config.PROCESSED_HISTORICAL_DIR, "hpd_2017_2020.csv"))
+        # historical_data_df = pd.read_csv(f_path)
+
+        espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
+        espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["date"])
+
+        tournament_date_col(df, espn_tourns_df)       
 
 def main():
 
