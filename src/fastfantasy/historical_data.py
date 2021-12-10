@@ -1335,11 +1335,12 @@ def merge_tournaments(f_pattern, f_name):
     merged_data = combine_files(f_path, f_pattern)
 
     merged_path = Path(path_config.DATA_PROCESSED, f_name)
-    if os.path.isfile(merged_path):
-        # file exists so no need for headers
-        merged_data.to_csv(merged_path, mode="a", header=False, index=False, date_format="%Y-%m-%d")
-    else:
-        merged_data.to_csv(merged_path, mode="a", header=True, index=False, date_format="%Y-%m-%d")
+    merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
+    # if os.path.isfile(merged_path):
+    #     # file exists so no need for headers
+    #     merged_data.to_csv(merged_path, mode="w", header=False, index=False, date_format="%Y-%m-%d")
+    # # else:
+    #     merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
 
 
 
@@ -1355,10 +1356,9 @@ def main():
     # write_tournament_data(t_url)
 
     merge_tournaments("*.csv", "hpd_2018.csv")
-
-        
-
-
+    hpd_path = Path(path_config.DATA_PROCESSED, "hpd_2018.csv")
+    hpd_df = pd.read_csv(hpd_path)
+    print(hpd_df.shape)
 
 if __name__ == "__main__":
     main()
