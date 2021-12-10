@@ -1189,7 +1189,7 @@ class MergeTournaments():
         self.pattern = pattern
         self.result_fn = f_name
     
-    def merge(f_pattern, f_name):
+    def merge(self):
         """Merge espn tournmants
         
         Args:
@@ -1199,9 +1199,9 @@ class MergeTournaments():
             
         """
         f_path = str(Path(path_config.DATA_RAW))
-        merged_data = self.combine_files(f_path, f_pattern)
+        merged_data = self.combine_files(f_path, self.pattern)
 
-        merged_path = Path(path_config.DATA_PROCESSED, f_name)
+        merged_path = Path(path_config.DATA_PROCESSED, self.result_fn)
         merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
         
 
