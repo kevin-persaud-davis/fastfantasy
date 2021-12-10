@@ -948,6 +948,13 @@ def parallel_tournament_data(tournament_urls):
                 results.append(None)
         return results
 
+class DataRunner():
+
+    def __init__(self) -> None:
+        self.missed_tourns = []
+        self.season_df = pd.DataFrame()
+
+    
 def get_espn_tournaments(start, end=None, all_tournaments=False):
     """Get espn tournaments for given season(s).
 
