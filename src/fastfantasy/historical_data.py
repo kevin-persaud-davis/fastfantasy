@@ -1222,7 +1222,19 @@ class MergeTournaments():
             files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files]
             combined_files = pd.concat([pd.read_csv(f) for f in files])
 
-        return combined_files        
+        return combined_files
+
+    def tournament_date_col(self, df, tournament_df):
+        """Create date column through tournament id mapping
+
+        Parameters:
+            df (pd.Dataframe)
+            tournament_df (pd.Dataframe)
+        """
+        date_col = df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
+
+        idx = 2
+        df.insert(loc=idx, column="date", value=date_col)        
 
 def main():
 
