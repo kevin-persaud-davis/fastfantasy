@@ -990,13 +990,13 @@ class DataRunner():
         
         self.get_espn_tournaments()
 
-        print(f"Number of tournaments: {tournaments_df.shape[0]}")
+        print(f"Number of tournaments: {self.season_df.shape[0]}")
 
         base_url = "https://www.espn.com/golf/leaderboard?tournamentId="
 
-        tournaments_df["url"] = tournaments_df["tournament_id"].apply(lambda x: base_url + str(x))
+        self.season_df["url"] = self.season_df["tournament_id"].apply(lambda x: base_url + str(x))
 
-        urls = tournaments_df["url"].tolist()
+        urls = self.season_df["url"].tolist()
 
         results = parallel_tournament_data(urls)
         
