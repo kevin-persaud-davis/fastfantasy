@@ -4,7 +4,7 @@ import sys
 from csv import DictWriter
 import time
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-import fnmatch
+from fnmatch import fnmatch
 import path_config
 
 import requests
@@ -1303,7 +1303,7 @@ def run_date_transformation(df):
     # f_path = str(Path(config.PROCESSED_HISTORICAL_DIR, "hpd_2017_2020.csv"))
     # historical_data_df = pd.read_csv(f_path)
 
-    espn_tourn_path = (Path(path_config.DATA_RAW, "espn_tournaments_2018.csv"))
+    espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
     espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["date"])
 
     tournament_date_col(df, espn_tourns_df)
@@ -1331,7 +1331,7 @@ def merge_tournaments(f_pattern, f_name):
         f_name (str) : file name for merged tournaments
         
     """
-    f_path = Path(path_config.DATA_RAW)
+    f_path = str(Path(path_config.DATA_RAW))
     merged_data = combine_files(f_path, f_pattern)
 
     merged_path = Path(path_config.DATA_PROCESSED, f_name)
@@ -1340,6 +1340,8 @@ def merge_tournaments(f_pattern, f_name):
         merged_data.to_csv(merged_path, mode="a", header=False, index=False, date_format="%Y-%m-%d")
     else:
         merged_data.to_csv(merged_path, mode="a", header=True, index=False, date_format="%Y-%m-%d")
+
+
 
 def main():
 
@@ -1352,6 +1354,7 @@ def main():
     # f_dest = "raw"
     # write_tournament_data(t_url)
 
+    merge_tournaments("*.csv", "hpd_2018.csv")
 
         
 
