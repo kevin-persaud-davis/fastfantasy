@@ -1310,6 +1310,18 @@ def run_date_transformation(df):
 
     # historical_data_df.to_csv(f_path)
 
+def tournament_date_col(df, tournament_df):
+    """Create date column through tournament id mapping
+
+    Parameters:
+        df (pd.Dataframe)
+        tournament_df (pd.Dataframe)
+    """
+    date_col = df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
+
+    idx = 2
+    df.insert(loc=idx, column="date", value=date_col)
+
 def main():
 
     t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
