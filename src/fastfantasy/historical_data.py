@@ -1,5 +1,5 @@
 import os
-from pathlib import Path
+from pathlib import Path, PurePath
 import sys
 from csv import DictWriter
 import time
@@ -1272,6 +1272,26 @@ def clean_up_runner(tournaments):
     for tourn in tournaments:
         missed_result = write_tournament_data(tourn)
         print(missed_result)
+
+def combine_files(root, pattern=None):
+    """Combine all files in root path directory
+
+    Parameters:
+        root (str) : file path to directory of files
+        pattern (str) : optional file pattern to search for in directory
+
+    Returns:
+        combined files
+    """
+    if pattern is not None:
+        files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files if fnmatch(name, pattern)]
+        combined_files = pd.concat([pd.read_csv(f) for f in files])
+
+    else:
+        files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files]
+        combined_files = pd.concat([pd.read_csv(f) for f in files])
+
+    return combined_files
 
 def main():
 
