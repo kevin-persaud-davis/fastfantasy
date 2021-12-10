@@ -503,7 +503,7 @@ class EspnSeason():
             else:
                 f_name = f"espn_tournaments_{self.start}.csv"
 
-            file_path = Path(path_config.DATA_RAW, f_name)
+            file_path = Path(path_config.RAW_TOURNAMENTS, f_name)
 
             df.to_csv(file_path, index=False)
 
@@ -570,7 +570,7 @@ class CleanTournaments():
 
             self.filter_tournaments()
 
-        cleaned_tourn_path = (Path(path_config.DATA_PROCESSED, save_fname))
+        cleaned_tourn_path = (Path(path_config.PROCESSED_TOURNAMENTS, save_fname))
 
         self.cleaned_df.to_csv(cleaned_tourn_path, index=False)
 
