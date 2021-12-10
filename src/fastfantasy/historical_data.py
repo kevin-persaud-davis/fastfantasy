@@ -1032,6 +1032,9 @@ class DataRunner():
         self.start = start
 
         self.parallel_historical_runner()
+
+        if self.missed_tourns is not None:
+            self.clean_up_runner()
             
         
 
