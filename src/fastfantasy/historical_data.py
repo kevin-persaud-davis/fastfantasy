@@ -1185,8 +1185,9 @@ def merge_tournaments(f_pattern, f_name):
 
 class MergeTournaments():
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, pattern, f_name) -> None:
+        self.pattern = pattern
+        self.result_fn = f_name
     
     def merge(f_pattern, f_name):
         """Merge espn tournmants
