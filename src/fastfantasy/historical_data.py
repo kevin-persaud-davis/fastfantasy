@@ -1203,7 +1203,26 @@ class MergeTournaments():
 
         merged_path = Path(path_config.DATA_PROCESSED, self.result_fn)
         merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
-        
+
+    def combine_files(self, root):
+        """Combine all files in root path directory
+
+        Parameters:
+            root (str) : file path to directory of files
+            pattern (str) : optional file pattern to search for in directory
+
+        Returns:
+            combined files
+        """
+        if self.pattern is not None:
+            files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files if fnmatch(name, self.pattern)]
+            combined_files = pd.concat([pd.read_csv(f) for f in files])
+
+        else:
+            files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files]
+            combined_files = pd.concat([pd.read_csv(f) for f in files])
+
+        return combined_files        
 
 def main():
 
