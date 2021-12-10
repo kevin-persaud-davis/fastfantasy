@@ -1024,6 +1024,17 @@ class DataRunner():
                 missed_result = write_tournament_data(tourn)
                 print(missed_result)
 
+    def runner(self, start, end=None):
+
+        if end is not None:
+            self.end = end
+        
+        self.start = start
+
+        self.parallel_historical_runner()
+            
+        
+
 
 def get_espn_tournaments(start, end=None, all_tournaments=False):
     """Get espn tournaments for given season(s).
