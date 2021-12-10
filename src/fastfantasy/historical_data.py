@@ -105,32 +105,6 @@ class TournamentParticipants():
                     h_page = session.get(espn_home_url)
 
 
-def p_scorecard(scorecard_url):
-
-    with requests.Session() as session:
-            
-        page = session.get(scorecard_url)
-
-        if page.status_code == 200:
-
-            soup = BeautifulSoup(page.content, "lxml")
-            base = soup.find_all("div", class_="roundSwap active")
-            
-            if base is not None:
-                id_data = {}
-
-                p_id_start = scorecard_url.find("id") + 3
-                p_id_end = scorecard_url.rfind("tournamentId") - 1
-
-                id_data["player_id"] = scorecard_url[p_id_start:p_id_end]
-                id_data["tournament_id"] = scorecard_url[scorecard_url.rfind("/") + 1:]
-
-                scorecard_data = scoring_data(base)
-                player_data = {**id_data, **scorecard_data}
-
-                assert len(player_data) == 146
-                
-                return player_data
 
 class GolfRound():
 
@@ -343,13 +317,6 @@ class GolfRound():
             print("Incorrect number of rounds given.\n")
 
     
-        
-
-
-class Scorecard():
-
-    def __init__(self) -> None:
-        self.rds_data = {}
 
 def handle_bad_page(player_info):
     """Handle page errors
