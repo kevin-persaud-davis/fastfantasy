@@ -958,21 +958,20 @@ class DataRunner():
 
     def get_espn_tournaments(self):
         
-        if end is not None:
+        if self.end is not None:
 
-            tourn_file = f"valid_tournaments_{start}_{end}.csv"
+            tourn_file = f"valid_tournaments_{self.start}_{self.end}.csv"
             valid_tournaments_path = (Path(path_config, tourn_file))
             df = pd.read_csv(valid_tournaments_path,  date_parser=["date"])
 
-            season_df = df[(df.season_id >= start) & (df.season_id <= end)]
-            self.end = end
+            season_df = df[(df.season_id >= self.start) & (df.season_id <= self.end)]
+            
         else:
-            tourn_file = f"valid_tournaments_{start}.csv"
+            tourn_file = f"valid_tournaments_{self.start}.csv"
             valid_tournaments_path = (Path(path_config, tourn_file))
             df = pd.read_csv(valid_tournaments_path, date_parser=["date"])
-            season_df = df[df.season_id == start]
-            
-        self.start = start
+            season_df = df[df.season_id == self.start]
+        
         self.season_df = season_df
 
     def parallel_historical_runner(self, start, end=None):
