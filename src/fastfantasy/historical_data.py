@@ -974,7 +974,7 @@ class DataRunner():
         
         self.season_df = season_df
 
-    def parallel_historical_runner(self, start, end=None):
+    def parallel_historical_runner(self):
         """Get historical data over given pga season(s)
         
         Args:
@@ -987,13 +987,8 @@ class DataRunner():
         Returns:
             missed tournaments from to many server requests and failed connections
         """
-        if end is not None:
-            self.end = end
-            self.start = start
-            tournaments_df = self.get_espn_tournaments()
-        else:
-            self.start = start
-            tournaments_df = self.get_espn_tournaments()
+        
+        self.get_espn_tournaments()
 
         print(f"Number of tournaments: {tournaments_df.shape[0]}")
 
