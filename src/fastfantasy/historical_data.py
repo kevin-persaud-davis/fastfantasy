@@ -1018,6 +1018,12 @@ class DataRunner():
 
         return missed_tourns
 
+    def clean_up_runner(self):
+        if self.missed_tourns is not None:
+            for tourn in self.missed_tourns:
+                missed_result = write_tournament_data(tourn)
+                print(missed_result)
+
 
 def get_espn_tournaments(start, end=None, all_tournaments=False):
     """Get espn tournaments for given season(s).
