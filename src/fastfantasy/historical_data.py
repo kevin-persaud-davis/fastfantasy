@@ -958,9 +958,6 @@ class DataRunner():
 
     def get_espn_tournaments(self, start, end=None):
         
-        
-        
-
         if end is not None:
 
             tourn_file = f"valid_tournaments_{start}_{end}.csv"
@@ -977,6 +974,50 @@ class DataRunner():
             
         self.start = start
         self.season_df = season_df
+
+    def parallel_historical_runner(self, start, end=None):
+        """Get historical data over given pga season(s)
+        
+        Args:
+            start (int) : beginning pga season
+
+            end (int) : ending pga season, optional arg
+
+            f_path (str) : historical data directory to store data
+
+        Returns:
+            missed tournaments from to many server requests and failed connections
+        """
+        if end is not None:
+            self.end = end
+            self.start = start
+            tournaments_df = get_espn_tournaments(start, end)
+        else:
+            self.start = start
+            tournaments_df = get_espn_tournaments(start)
+
+        print(f"Number of tournaments: {tournaments_df.shape[0]}")
+
+        base_url = "https://www.espn.com/golf/leaderboard?tournamentId="
+
+        tournaments_df["url"] = tournaments_df["tournament_id"].apply(lambda x: base_url + str(x))
+
+        urls = tournaments_df["url"].tolist()
+
+        results = parallel_tournament_data(urls)
+        
+        missed_tourns = []
+        tourn_counter = 0
+        for result in results:
+            if result is None:
+                missed_tourns.append(urls[tourn_counter])
+                print(f"URL:{urls[tourn_counter]} TYPE: {(type(urls[tourn_counter]))}")
+                print(f"Length of URL : {len(urls[tourn_counter])}")
+            else:
+                print(result)
+            tourn_counter += 1
+
+        return missed_tourns
 
 
 def get_espn_tournaments(start, end=None, all_tournaments=False):
