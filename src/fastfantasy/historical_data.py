@@ -951,10 +951,34 @@ def parallel_tournament_data(tournament_urls):
 class DataRunner():
 
     def __init__(self) -> None:
+        self.start = None
+        self.end = None
         self.missed_tourns = []
         self.season_df = pd.DataFrame()
 
-    
+    def get_espn_tournaments(self, start, end=None):
+        
+        
+        
+
+        if end is not None:
+
+            tourn_file = f"valid_tournaments_{start}_{end}.csv"
+            valid_tournaments_path = (Path(path_config, tourn_file))
+            df = pd.read_csv(valid_tournaments_path,  date_parser=["date"])
+
+            season_df = df[(df.season_id >= start) & (df.season_id <= end)]
+            self.end = end
+        else:
+            tourn_file = f"valid_tournaments_{start}.csv"
+            valid_tournaments_path = (Path(path_config, tourn_file))
+            df = pd.read_csv(valid_tournaments_path, date_parser=["date"])
+            season_df = df[df.season_id == start]
+            
+        self.start = start
+        self.season_df = season_df
+
+
 def get_espn_tournaments(start, end=None, all_tournaments=False):
     """Get espn tournaments for given season(s).
 
