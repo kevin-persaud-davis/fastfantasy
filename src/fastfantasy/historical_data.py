@@ -1188,6 +1188,7 @@ class MergeTournaments():
     def __init__(self, pattern, f_name) -> None:
         self.pattern = pattern
         self.result_fn = f_name
+        self.merge_df = pd.DataFrame()
     
     def merge(self):
         """Merge espn tournmants
