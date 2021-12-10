@@ -1187,7 +1187,22 @@ class MergeTournaments():
 
     def __init__(self) -> None:
         pass
+    
+    def merge(f_pattern, f_name):
+        """Merge espn tournmants
+        
+        Args:
+            f_pattern (str) : pattern criteria to match for files
+            
+            f_name (str) : file name for merged tournaments
+            
+        """
+        f_path = str(Path(path_config.DATA_RAW))
+        merged_data = self.combine_files(f_path, f_pattern)
 
+        merged_path = Path(path_config.DATA_PROCESSED, f_name)
+        merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
+        
 
 def main():
 
