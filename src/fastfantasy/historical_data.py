@@ -17,15 +17,24 @@ class TournamentParticipants():
     def __init__(self) -> None:
         self.player_ids = []
         self.player_scorecards = []
-
+        
     def find_player_id(self, player):
-        """Find player id
+        """Find player id from player link.
 
-        Args:
-            player (str) : tournament participant
+        Parameters
+        ----------
+        player : str
 
-        Returns:
-            player id
+        Returns
+        ----------
+        str
+            Player id.
+            
+        Examples
+        --------
+        >>> player_link = player.find("a")
+        >>> tp = TournamentParicipants()
+        >>> p_id = tp.find_player_id(player_link)
         """
         id_ = "id/"
         beg = player.find(id_) + len(id_)
