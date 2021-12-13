@@ -1065,7 +1065,7 @@ def get_espn_tournaments(start, end=None, all_tournaments=False):
         pass
     else:
         # Create check for valid file / search for file with given start and end input.
-        valid_tournaments_path = (Path(path_config, "valid_tournaments_2018.csv"))
+        valid_tournaments_path = (Path(path_config.PROCESSED_TOURNAMENTS, "valid_tournaments_2018.csv"))
         df = pd.read_csv(valid_tournaments_path,  date_parser=["date"])
 
     if end is not None:
