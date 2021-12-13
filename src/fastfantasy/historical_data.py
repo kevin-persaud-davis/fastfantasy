@@ -1,3 +1,4 @@
+from datetime import date
 import os
 from pathlib import Path, PurePath
 import sys
@@ -1154,9 +1155,10 @@ def run_date_transformation(df):
     # historical_data_df = pd.read_csv(f_path)
 
     espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
-    espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["date"])
+    espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["tournament_date"])
 
-    tournament_date_col(df, espn_tourns_df)
+    new_df = tournament_date_col(df, espn_tourns_df)
+    return new_df
 
     # historical_data_df.to_csv(f_path)
 
@@ -1167,10 +1169,11 @@ def tournament_date_col(df, tournament_df):
         df (pd.Dataframe)
         tournament_df (pd.Dataframe)
     """
-    date_col = df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
+    date_col = df["tournament_id"].apply(lambda x: tournament_df["tournament_date"][tournament_df["tournament_id"] == x].values[0])
 
     idx = 2
     df.insert(loc=idx, column="date", value=date_col)
+    return df
 
 def merge_tournaments(f_pattern, f_name):
     """Merge espn tournmants
@@ -1183,9 +1186,10 @@ def merge_tournaments(f_pattern, f_name):
     """
     f_path = str(Path(path_config.DATA_RAW))
     merged_data = combine_files(f_path, f_pattern)
+    transformed_df = run_date_transformation(merged_data)
 
     merged_path = Path(path_config.DATA_PROCESSED, f_name)
-    merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
+    transformed_df.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
     # if os.path.isfile(merged_path):
     #     # file exists so no need for headers
     #     merged_data.to_csv(merged_path, mode="w", header=False, index=False, date_format="%Y-%m-%d")
@@ -1209,10 +1213,10 @@ class MergeTournaments():
             
         """
         f_path = str(Path(path_config.DATA_RAW))
-        merged_data = self.combine_files(f_path, self.pattern)
+        self.combine_files(f_path)
 
         merged_path = Path(path_config.DATA_PROCESSED, self.result_fn)
-        merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
+        self.merge_df.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
 
     def combine_files(self, root):
         """Combine all files in root path directory
@@ -1241,10 +1245,12 @@ class MergeTournaments():
             df (pd.Dataframe)
             tournament_df (pd.Dataframe)
         """
-        date_col = self.merge_df["tournament_id"].apply(lambda x: tournament_df["date"][tournament_df["tournament_id"] == x].values[0])
-
+        date_col = self.merge_df["tournament_id"].apply(lambda x: tournament_df["tournament_date"][tournament_df["tournament_id"] == x].values[0])
+        
         idx = 2
+        
         self.merge_df.insert(loc=idx, column="date", value=date_col)
+        
 
     def run_date_transformation(self):
         """Run and save date transformations for historical player data
@@ -1256,25 +1262,23 @@ class MergeTournaments():
         # historical_data_df = pd.read_csv(f_path)
 
         espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
-        espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["date"])
+        espn_tourns_df = pd.read_csv(espn_tourn_path, date_parser=["tournament_date"])
 
-        tournament_date_col(espn_tourns_df)       
+        self.tournament_date_col(espn_tourns_df)
+
+    def run_merge(self):
+
+        self.merge()
+        self.run_date_transformation()     
 
 def main():
 
     t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
     t2_url = "https://www.espn.com/golf/leaderboard?tournamentId=3763"
     scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
-    # run_player_scorecard(t_url)
-
-    # fetch_scorecard_data(t_url)
-    # f_dest = "raw"
-    # write_tournament_data(t_url)
 
     merge_tournaments("*.csv", "hpd_2018.csv")
-    hpd_path = Path(path_config.DATA_PROCESSED, "hpd_2018.csv")
-    hpd_df = pd.read_csv(hpd_path)
-    print(hpd_df.shape)
 
+    
 if __name__ == "__main__":
     main()
