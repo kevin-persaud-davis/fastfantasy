@@ -19,7 +19,10 @@ def raw_data(start_season, end_season=None, save_data=False):
         
         return raw_df
 
+class DataAccess():
 
+    def __init__(self) -> None:
+        pass
 
 def main():
     
