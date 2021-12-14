@@ -1175,7 +1175,7 @@ def tournament_date_col(df, tournament_df):
     df.insert(loc=idx, column="date", value=date_col)
     return df
 
-def merge_tournaments(f_pattern, f_name):
+def merge_tournaments(f_pattern, f_name, save=True):
     """Merge espn tournmants
     
     Args:
@@ -1184,12 +1184,18 @@ def merge_tournaments(f_pattern, f_name):
         f_name (str) : file name for merged tournaments
         
     """
-    f_path = str(Path(path_config.DATA_RAW))
-    merged_data = combine_files(f_path, f_pattern)
-    transformed_df = run_date_transformation(merged_data)
+    if save:
+        f_path = str(Path(path_config.DATA_RAW))
+        merged_data = combine_files(f_path, f_pattern)
+        transformed_df = run_date_transformation(merged_data)
 
-    merged_path = Path(path_config.DATA_PROCESSED, f_name)
-    transformed_df.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
+        merged_path = Path(path_config.DATA_PROCESSED, f_name)
+        transformed_df.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
+    else:
+        f_path = str(Path(path_config.DATA_RAW))
+        merged_data = combine_files(f_path, f_pattern)
+        transformed_df = run_date_transformation(merged_data)
+        return transformed_df
     # if os.path.isfile(merged_path):
     #     # file exists so no need for headers
     #     merged_data.to_csv(merged_path, mode="w", header=False, index=False, date_format="%Y-%m-%d")
