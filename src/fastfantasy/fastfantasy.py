@@ -21,8 +21,14 @@ def raw_data(start_season, end_season=None, save_data=False):
 
 class DataAccess():
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, start, end=None, data="raw") -> None:
+        if end is not None:
+            self.end = end
+        else:
+            self.end = None
+
+        self.start = start
+        self.data = data
 
 def main():
     
