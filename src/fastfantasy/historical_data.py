@@ -112,6 +112,7 @@ class TournamentParticipants():
                             print(f"Number of tables {len(tourn_tables)} in url {url}")
 
                 else:
+                    print(page.status_code)
                     h_page = session.get(espn_home_url)
 
     
@@ -894,7 +895,7 @@ def fetch_scorecard_data(url):
     tournament.run_tournament_scorecards(url)
 
     player_urls = tournament.player_scorecards
-
+    print(len(player_urls))
     player_data = [player_scorecard(player) for player in player_urls]
     print("\nNumber of players: ", len(player_data))
     return player_data
@@ -954,7 +955,7 @@ def parallel_tournament_data(tournament_urls):
                 result = future.result()
                 results.append(result)
             except Exception as exc:
-                # print(f"{result} generated an excpetion {exc}")
+                print(f"{result} generated an excpetion {exc}")
                 results.append(None)
         return results
 
@@ -971,14 +972,14 @@ class DataRunner():
         if self.end is not None:
 
             tourn_file = f"valid_tournaments_{self.start}_{self.end}.csv"
-            valid_tournaments_path = (Path(path_config, tourn_file))
+            valid_tournaments_path = (Path(path_config.PROCESSED_TOURNAMENTS, tourn_file))
             df = pd.read_csv(valid_tournaments_path,  date_parser=["date"])
 
             season_df = df[(df.season_id >= self.start) & (df.season_id <= self.end)]
             
         else:
             tourn_file = f"valid_tournaments_{self.start}.csv"
-            valid_tournaments_path = (Path(path_config, tourn_file))
+            valid_tournaments_path = (Path(path_config.PROCESSED_TOURNAMENTS, tourn_file))
             df = pd.read_csv(valid_tournaments_path, date_parser=["date"])
             season_df = df[df.season_id == self.start]
         
@@ -1021,7 +1022,7 @@ class DataRunner():
                 print(result)
             tourn_counter += 1
 
-        return missed_tourns
+        self.missed_tourns = missed_tourns
 
     def clean_up_runner(self):
         if self.missed_tourns is not None:
@@ -1283,7 +1284,9 @@ def main():
     t2_url = "https://www.espn.com/golf/leaderboard?tournamentId=3763"
     scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
 
-    merge_tournaments("*.csv", "hpd_2018.csv")
+    # merge_tournaments("*.csv", "hpd_2018.csv")
+    # m_tourns = parallel_historical_runner(2018)
+    
 
     
 if __name__ == "__main__":
