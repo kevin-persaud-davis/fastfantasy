@@ -81,15 +81,6 @@ class EspnTournament():
     def parse_espn_dates(self, date, identifier, b_identifier=True):
         """Parse for subset date of the original date
 
-        Args:
-            date (str) - date of a tournament (ex. 'Oct 5-8 2018')
-            identifier (str) - ident. to be searched for
-            b_identifer (bool) - flag to tell where subset search begins
-
-        Returns:
-            subset of the date
-        Set tournament name from a tournament meta.
-
         Parameters
         ----------
         date : str 
@@ -98,7 +89,7 @@ class EspnTournament():
         identifier : str
             Identifier to be searched for.
 
-        b_identifier : bool
+        b_identifier : bool, optional
             Flag to tell where subset search begins.
 
         Returns
