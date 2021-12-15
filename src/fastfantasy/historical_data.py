@@ -1177,13 +1177,28 @@ def tournament_date_col(df, tournament_df):
     return df
 
 def merge_tournaments(f_pattern, f_name, save=True):
-    """Merge espn tournmants
-    
-    Args:
-        f_pattern (str) : pattern criteria to match for files
-        
-        f_name (str) : file name for merged tournaments
-        
+    """Merge espn tournmants.
+
+    Parameters
+    ----------
+    f_pattern : str 
+        Pattern criteria to match for files.
+
+    f_name : str
+        file name to use for merged tournaments.
+
+    save : bool, optional
+        If True, save the df to processed data folder. Otherwise,
+        return df.
+
+    Returns
+    -------
+    transfomred_df
+        Raw ESPN dataframe.
+
+    Examples
+    --------
+    >>> df = merge_tournaments("*.csv", "hpd_2018", save=False) 
     """
     if save:
         f_path = str(Path(path_config.DATA_RAW))
