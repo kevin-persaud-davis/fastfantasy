@@ -45,7 +45,17 @@ class TournamentParticipants():
 
     def set_player_ids(self, t_body):
         """Get player ids from tournament body
-        
+            
+        Parameters
+        ----------
+        t_body : element.Tag 
+            tournament body.
+
+        Examples
+        --------
+        >>> tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
+        >>> tp = TournamentParticipants()
+        >>> tp.set_player_ids(tourn_body)
         """
         player_ids = []
         players = t_body.find_all("tr")
