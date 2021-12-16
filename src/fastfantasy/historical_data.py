@@ -646,16 +646,24 @@ def find_rd_number(rd):
 
 def missing_round_number(scoring_base):
     """Find missing round number(s) of player during tournament.
+    
     Ensures that same round number is not used twice.
+    
+    Parameters
+    ----------
+    scoring_base : ResultSet 
+        Set of player tournament rounds.
 
-    Args:
-
-        scoring_base (ResultSet) :  set of player tournament rounds
-
-    Returns:
-
-        m_rx : missing round name (x - dependent of number of rounds missed)
-
+    Returns
+    -------
+    np.int32
+        missing round number. The number of rounds return is dependent
+        on how many rounds a player missed. It can range from 1 to 3.
+    Examples
+    --------
+    >>> if len(scoring_base) == 1:
+    ...     round_1 = find_rd_number(scoring_base[0])
+    ...     m_rd1, m_rd2, m_rd3 = missing_round_number(scoring_base)
     """
     rd_check = np.array(["round_1", "round_2", "round_3", "round_4"])
 
