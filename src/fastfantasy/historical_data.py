@@ -44,7 +44,7 @@ class TournamentParticipants():
         return player[beg:end]
 
     def set_player_ids(self, t_body):
-        """Get player ids from tournament body
+        """Get player ids from tournament body.
             
         Parameters
         ----------
@@ -79,7 +79,22 @@ class TournamentParticipants():
                                     for player in self.player_ids]
     
     def run_tournament_scorecards(self, url):
+        """Run tournament scorecards for url.
+            
+        Retrieving all of the player's from a tournament url. Then
+        creating a collection of scorecard url's to use later for 
+        raw scorecard data.
+        
+        Parameters
+        ----------
+        url : str 
+            tournament url.
 
+        Examples
+        --------
+        >>> tournament = TournamentParticipants()
+        >>> tournament.run_tournament_scorecards(url))
+        """
         espn_home_url = "https://www.espn.com/golf/"
 
         t_id = url[url.rfind("=")+1:]
