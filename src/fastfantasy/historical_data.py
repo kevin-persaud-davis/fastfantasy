@@ -84,7 +84,7 @@ class TournamentParticipants():
         Retrieving all of the player's from a tournament url. Then
         creating a collection of scorecard url's to use later for 
         raw scorecard data.
-        
+
         Parameters
         ----------
         url : str 
@@ -486,12 +486,6 @@ def handle_bad_page(player_info):
 def missing_data(scoring_data):
     """Fill missing hole entries
 
-    Args:
-        scoring_data (list) : round data with missing entries
-
-    Returns:
-        scoring_data (list) : round data filled
-
     Parameters
     ----------
     scoring_data : list 
@@ -525,6 +519,7 @@ def get_round_scores(rd):
 
         hole_data (list) : hole data for 9 holes 
 
+    
     """
 
     shot_data = [int(score.text) if score.text else None for score in rd ]
