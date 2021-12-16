@@ -112,21 +112,31 @@ class TournamentParticipants():
                             print(f"Number of tables {len(tourn_tables)} in url {url}")
 
                 else:
-                    print(page.status_code)
+                    page.raise_for_status()
                     h_page = session.get(espn_home_url)
 
     
 
 def handle_bad_page(player_info):
-    """Handle page errors
+    """Handle page errors for a player at a tournament.
     
-    Args:
-        player_info (dict) : player information
+    ESPN doesn't have the information for certain players on their
+    website. Therefore, I had to manually enter their data in the
+    collection process.
+    
+    Parameters
+    ----------
+    player_info : dict 
+        Player participant information.
 
-        player_scores (dict) : player scoring data
+    Returns
+    -------
+    dict
+        Player Tournament Data.
 
-    Returns:
-        Updated player data to handle espn server error
+    Examples
+    --------
+    >>> scorecard_data = handle_bad_page(id_data)
     """
     new_player_info = player_info
 
