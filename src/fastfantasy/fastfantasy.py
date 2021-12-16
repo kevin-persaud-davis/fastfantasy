@@ -37,6 +37,16 @@ class DataAccess():
         
         return f_df
 
+    def fantasy(self):
+
+        df = self.full()
+        id_df = df.iloc[:, :3].copy()
+        dk_df = df.iloc[:, 150:].copy()
+
+        df = id_df.join(dk_df, how="outer")
+        return df
+
+
 def main():
     
     # option 1. Raw ESPN scorecard data
