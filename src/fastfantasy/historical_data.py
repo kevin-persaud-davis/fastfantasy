@@ -493,7 +493,7 @@ def missing_data(scoring_data):
 
     Returns
     -------
-    lsit
+    list
         Player data with missing data filled.
 
     Examples
@@ -509,16 +509,27 @@ def missing_data(scoring_data):
 
 
 def get_round_scores(rd):
-    """Get player scores, both shot and hole data, for 9 holes
+    """Get round scores for round.
 
-    Args:
-        rd (list) : player 9 hole scoring data
-    
-    Returns:
-        shot_data (list) : shot data for 9 holes
+    Retrieve player round scores, which include shot and hole
+    data for 9 holes.
 
-        hole_data (list) : hole data for 9 holes 
+    Parameters
+    ----------
+    rd : list 
+        player 9 hole scoring data.
 
+    Returns
+    -------
+    list
+        shot data for 9 holes.
+    list
+        hole data for 9 holes.
+
+    Examples
+    --------
+    >>> rd_front = rd_front_total[:-1]
+    >>> front_shot_data, front_hole_data = get_round_scores(rd_front)
     
     """
 
