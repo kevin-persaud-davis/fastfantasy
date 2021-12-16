@@ -1313,14 +1313,24 @@ def clean_up_runner(tournaments):
         print(missed_result)
 
 def combine_files(root, pattern=None):
-    """Combine all files in root path directory
+    """Combine all files in root path directory.
 
-    Parameters:
-        root (str) : file path to directory of files
-        pattern (str) : optional file pattern to search for in directory
+    Parameters
+    ----------
+    root : str 
+        file path to directory of files.
+    
+    pattern : str
+        File pattern to search for in directory, optional.
 
-    Returns:
-        combined files
+    Returns
+    -------
+    pd.Dataframe:
+        Combined ESPN tournament data.
+
+    Examples
+    --------
+    >>> merged_data = combine_files(f_path, f_pattern)
     """
     if pattern is not None:
         files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files if fnmatch(name, pattern)]
