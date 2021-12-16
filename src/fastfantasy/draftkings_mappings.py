@@ -37,8 +37,9 @@ def birdie_streak(df):
 
 class FantasyMapper():
 
-    def __init__(self, df, tid_list):
-        self.df = df[df.tournament_id.isin(tid_list)]
+    pd.options.mode.chained_assignment = None
+    def __init__(self, df):
+        self.df = df
 
     def get_data(self):
         return self.df
@@ -342,11 +343,12 @@ def mapper_runner(start, end=None):
     f_mapper = FantasyMapper(hpd_df, tournament_ids)
 
     f_mapper.run_all_transformations()
-    print(f_mapper.df.shape)
+    
+    return f_mapper.get_data()
 
 def main():
     
-    mapper_runner(2018)
+    fantasy_df = mapper_runner(2018)
 
 if __name__ == "__main__":
     main()
