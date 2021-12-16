@@ -1294,7 +1294,20 @@ def parallel_historical_runner(start, end=None):
     return missed_tourns
 
 def clean_up_runner(tournaments):
+    """Clean up runner for tournaments.
 
+    All tournaments missed from bad server requests in parallel data
+    runner are given to get cleaned up.
+
+    Parameters
+    ----------
+    tournaments : list 
+        Missed ESPN tournament urls.
+
+    Examples
+    --------
+    >>> clean_up_runner(urls)
+    """
     for tourn in tournaments:
         missed_result = write_tournament_data(tourn)
         print(missed_result)
