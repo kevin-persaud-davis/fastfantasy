@@ -714,14 +714,23 @@ def missing_round_number(scoring_base):
 def missing_round(rd_name):
     """Fills missing round for player with None entires.
 
-    Args:
-        rd_name (str) : tournament round number
-    
-    Returns:
-        data (dict) : tournament round shot score data.
+    Parameters
+    ----------
+    rd_name : str 
+        Tournament round number.
 
-        data_pts (dict) : tournament round hole score data.
-    
+    Returns
+    -------
+    data, dict:
+        Tournament round shot score data.
+
+    data_pts, dict:
+        Tournament round hole score data.
+
+    Examples
+    --------
+    >>> if len(scoring_base) == 0:
+    ...     rd_1_data, rd_1_data_pts = missing_round("round_1")
     """
     hole_ids = [rd_name + "_" + str(hn) for hn in range(1,19)]
     hole_pts_id = [h_id + "_pts" for h_id in hole_ids]
