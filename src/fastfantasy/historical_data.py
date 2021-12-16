@@ -548,18 +548,30 @@ def get_round_scores(rd):
 
 
 def round_data(round_base, rd_name):
-    """Get player data for specific round in tournament
-
-    Args:
-        round_base (element.Tag) : tournament round data
+    """Get round data from round data and name
     
-    Returns:
-        data (dict) : tournament round shot score data. item entries 
-                    contain ints to reflect scoring data
+    Round base can be one of the four possible rounds that a player
+    participated in for a tournament.
 
-        data_pts (dict) : tournament round hole score data. item entries
-                    contain strs to reflect scoring data
+    Parameters
+    ----------
+    round_base : element.Tag 
+        tournament round data.
 
+    Returns
+    -------
+    dict
+        data: tournament round shot score data. item entries 
+        contain ints to reflect scoring data.
+    dict
+        data_pts: tournament round hole score data. item entries
+        contain strs to reflect scoring data.
+
+    Examples
+    --------
+    >>> rd_1 = scoring_base[0]
+    >>> rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
+    
     """
     front_hole_ids = [rd_name + "_" + str(hn) for hn in range(1,10)]
     back_hole_ids = [rd_name + "_" + str(hn) for hn in range(10, 19)]
