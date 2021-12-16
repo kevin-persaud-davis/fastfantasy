@@ -998,7 +998,22 @@ def player_scorecard(scorecard_url):
 
     
 def fetch_scorecard_data(url):
+    """Get scorecard data from url.
 
+    Parameters
+    ----------
+    scorecard_url : str 
+        ESPN url.
+
+    Returns
+    -------
+    list:
+        Player scorecard data for tournament.
+
+    Examples
+    --------
+    >>> tourn_data = fetch_scorecard_data(tournament_url)
+    """
     tournament = TournamentParticipants()
     tournament.run_tournament_scorecards(url)
 
