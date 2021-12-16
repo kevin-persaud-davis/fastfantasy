@@ -1,6 +1,5 @@
 from fastfantasy.historical_data import TournamentParticipants
 import time
-
 import requests
 from bs4 import BeautifulSoup
 import pytest
@@ -38,3 +37,13 @@ def retrieve_tournament_body():
                         tourn_body = tourn_table.find("tbody", class_="Table__TBODY")
 
                         return tourn_body
+
+def test_set_player_ids(retrieve_tournament_body):
+
+    tp = TournamentParticipants()
+    tp.set_player_ids(retrieve_tournament_body)
+
+    expected = 34
+    actual = tp.player_ids
+
+    assert expected == actual
