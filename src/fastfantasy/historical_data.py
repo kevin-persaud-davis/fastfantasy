@@ -1371,11 +1371,19 @@ def run_date_transformation(df):
     # historical_data_df.to_csv(f_path)
 
 def tournament_date_col(df, tournament_df):
-    """Create date column through tournament id mapping
+    """Create date column through tournament id mapping.
 
-    Parameters:
-        df (pd.Dataframe)
-        tournament_df (pd.Dataframe)
+    Parameters
+    ----------
+    df : pd.DataFrame 
+        Historical player data.
+    
+    tournament_df : pd.DataFrame
+        ESPN tournament data.
+
+    Examples
+    --------
+    >>> new_df = tournament_date_col(df, espn_tourns_df)
     """
     date_col = df["tournament_id"].apply(lambda x: tournament_df["tournament_date"][tournament_df["tournament_id"] == x].values[0])
 
