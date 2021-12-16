@@ -571,7 +571,6 @@ def round_data(round_base, rd_name):
     --------
     >>> rd_1 = scoring_base[0]
     >>> rd_1_data, rd_1_data_pts = round_data(rd_1, round_1)
-    
     """
     front_hole_ids = [rd_name + "_" + str(hn) for hn in range(1,10)]
     back_hole_ids = [rd_name + "_" + str(hn) for hn in range(10, 19)]
@@ -624,14 +623,21 @@ def round_data(round_base, rd_name):
 
 
 def find_rd_number(rd):
-    """Find round number for scorecard
-    
-    Args:
-        rd (element.Tag) : div.roundSwap active. id attr
-                        includes round number
+    """Find round number for scorecard.
 
-    Returns:
-        tournament round number
+    Parameters
+    ----------
+    rd : element.Tag 
+        div.roundSwap active, id attr includes round number.
+
+    Returns
+    -------
+    str
+        tournament round number.
+
+    Examples
+    --------
+    >>> find_rd_number(scoring_base[0])    
     """
     rd_name = rd["id"]
     rd_name = rd_name[:rd_name.rfind("-")]
