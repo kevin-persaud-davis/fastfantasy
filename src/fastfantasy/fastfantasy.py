@@ -1,6 +1,5 @@
 from historical_data import DataRunner, merge_tournaments
-from draftkings_mappings import FantasyMapper, mapper_runner
-
+from draftkings_mappings import mapper_runner
 
 def raw_data(start_season, end_season=None, save_data=False):
 
@@ -21,19 +20,36 @@ def raw_data(start_season, end_season=None, save_data=False):
 
 class DataAccess():
 
-    def __init__(self, start, end=None, data="raw") -> None:
+    def __init__(self, start, end=None) -> None:
         if end is not None:
             self.end = end
         else:
             self.end = None
 
         self.start = start
-        self.data = data
+
+    def full(self):
+
+        if self.end is not None:
+            f_df = mapper_runner(self.start, self.end)
+        else:
+            f_df = mapper_runner(self.start)
+        
+        return f_df
 
 def main():
     
+    # option 1. Raw ESPN scorecard data
     df = raw_data(2018)
-    print(df.head())
+
+    # option 2. Raw ESPN scorecard data + DraftKings mappings
+    fantasy_df = mapper_runner(2018)
+    print(fantasy_df.head())
+
+    print(df.shape, fantasy_df.shape)
+    # option 3. Draftkings mappings
+    
+    
 
 
 if __name__ == "__main__":
