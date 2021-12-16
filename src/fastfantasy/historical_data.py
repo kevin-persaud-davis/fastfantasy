@@ -1343,10 +1343,21 @@ def combine_files(root, pattern=None):
     return combined_files
 
 def run_date_transformation(df):
-    """Run and save date transformations for historical player data
+    """Run data transformation on df.
     
-    Args:
-        df (pd.DataFrame) : historical player data
+    Parameters
+    ----------
+    df : pd.DataFrame 
+        Historical player data.
+
+    Returns
+    -------
+    pd.DataFrame:
+        Historical player df with added date column.
+
+    Examples
+    --------
+    >>> transformed_df = run_date_transformation(merged_data)
     """
     # f_path = str(Path(config.PROCESSED_HISTORICAL_DIR, "hpd_2017_2020.csv"))
     # historical_data_df = pd.read_csv(f_path)
