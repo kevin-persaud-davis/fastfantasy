@@ -466,6 +466,20 @@ def missing_data(scoring_data):
 
     Returns:
         scoring_data (list) : round data filled
+
+    Parameters
+    ----------
+    scoring_data : list 
+        Player tournament scoring data.
+
+    Returns
+    -------
+    lsit
+        Player data with missing data filled.
+
+    Examples
+    --------
+    >>> shot_data = missing_data(shot_data)
     """
     missing_holes = 9 - len(scoring_data)
     missing_entries = [None] * missing_holes
