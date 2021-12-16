@@ -914,13 +914,22 @@ def scoring_data(scoring_base):
 
 def player_scorecard(scorecard_url):
     """Get espn player scorecard for a specific tournament.
-
-    Args:
-        scorecard_url (str) : espn url
     
-    Returns:
-        player scoring data for tournament
+    Parameters
+    ----------
+    scorecard_url : str 
+        ESPN url.
 
+    Returns
+    -------
+    data, dict:
+        Player scoring data for tournament.
+
+    Examples
+    --------
+    >>> tournament = TournamentParticipants()
+    >>> player_urls = tournament.player_scorecards
+    >>> player_data = [player_scorecard(player) for player in player_urls]
     """
     with requests.Session() as session:
             
