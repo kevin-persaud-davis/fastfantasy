@@ -1203,13 +1203,26 @@ def get_espn_tournaments(start, end=None, all_tournaments=False):
     not been cancelled will be given (this includes tournaments of match play,
     charity events, etc.)
 
-    Args:
-        start (int) : starting pga season
-        end (int) : ending pga season, optional
-        all_tournaments (bool) : get all or valid tournaments
+    Parameters
+    ----------
+    start : int 
+        Starting season.
+    
+    end : int
+        Ending season.
+    
+    all_tournaments : bool
+        If True, gets all tournaments. Otherwise gets all valid
+        tournaments
 
-    Returns:
-        dataframe of tournaments for specified season(s)
+    Returns
+    -------
+    pd.Dataframe:
+        Season dataframe.
+
+    Examples
+    --------
+    >>> tourn_df = get_espn_tournaments(2018)
     """
     if all_tournaments:
         pass
