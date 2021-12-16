@@ -1243,15 +1243,26 @@ def get_espn_tournaments(start, end=None, all_tournaments=False):
 def parallel_historical_runner(start, end=None):
     """Get historical data over given pga season(s)
     
-    Args:
-        start (int) : beginning pga season
+    Parameters
+    ----------
+    start : int 
+        Starting season.
+    
+    end : int
+        Ending season.
+    
+    all_tournaments : bool
+        If True, gets all tournaments. Otherwise gets all valid
+        tournaments
 
-        end (int) : ending pga season, optional arg
+    Returns
+    -------
+    list:
+        Missed tournaments that result from failed server requests.
 
-        f_path (str) : historical data directory to store data
-
-    Returns:
-        missed tournaments from to many server requests and failed connections
+    Examples
+    --------
+    >>> tourn_df = get_espn_tournaments(2018)
     """
     if end is not None:
 
