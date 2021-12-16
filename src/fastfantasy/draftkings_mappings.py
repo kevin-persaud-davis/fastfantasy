@@ -333,15 +333,13 @@ class FantasyMapper():
 def mapper_runner(start, end=None):
 
     if end is not None:
-        tourn_df = get_espn_tournaments(start, end)
+        hpd_path = Path(path_config.DATA_PROCESSED, f"hpd_{start}_{end}.csv")
     else:
-        tourn_df = get_espn_tournaments(start)
+        hpd_path = Path(path_config.DATA_PROCESSED, f"hpd_{start}.csv")
 
-    hpd_path = Path(path_config.DATA_PROCESSED, "hpd_2018.csv")
     hpd_df = pd.read_csv(hpd_path, parse_dates=["date"])
-    tournament_ids = tourn_df.tournament_id.unique()
-    f_mapper = FantasyMapper(hpd_df, tournament_ids)
-
+    
+    f_mapper = FantasyMapper(hpd_df)
     f_mapper.run_all_transformations()
     
     return f_mapper.get_data()
