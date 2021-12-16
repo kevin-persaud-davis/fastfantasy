@@ -1074,6 +1074,22 @@ def write_tournament_data(tournament_url, f_path="raw"):
     return msg
 
 def parallel_tournament_data(tournament_urls):
+    """Write all tournament data concurrently.
+    
+    Parameters
+    ----------
+    tournament_urls : list 
+        ESPN tournament urls.
+
+    Returns
+    -------
+    Future:
+        Tournament data future result.
+
+    Examples
+    --------
+    >>> results = parallel_tournament_data(urls)
+    """
     futures_list = []
     results = []
     MAX_WORKERS = 8
