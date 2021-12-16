@@ -1075,7 +1075,7 @@ def write_tournament_data(tournament_url, f_path="raw"):
 
 def parallel_tournament_data(tournament_urls):
     """Write all tournament data concurrently.
-    
+
     Parameters
     ----------
     tournament_urls : list 
@@ -1117,7 +1117,7 @@ class DataRunner():
         self.season_df = pd.DataFrame()
 
     def get_espn_tournaments(self):
-        
+        """Get espn tournaments for given season(s)."""
         if self.end is not None:
 
             tourn_file = f"valid_tournaments_{self.start}_{self.end}.csv"
