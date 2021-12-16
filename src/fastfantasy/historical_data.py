@@ -1025,11 +1025,21 @@ def fetch_scorecard_data(url):
 
 
 def write_tournament_data(tournament_url, f_path="raw"):
-    """Write historical tournament data to disk
+    """Write historical tournament data to disk.
 
-    Args:
-        tournament_url (str) : espn tournament
+    Parameters
+    ----------
+    tournament_url : str 
+        ESPN tournament.
 
+    Returns
+    -------
+    str:
+        Message of writing tournament data.
+
+    Examples
+    --------
+    >>> result = write_tournament_data(tournament_url)
     """
     # Get data for file
     tourn_data = fetch_scorecard_data(tournament_url)
