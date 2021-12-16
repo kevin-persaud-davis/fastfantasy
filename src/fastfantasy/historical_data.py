@@ -744,15 +744,24 @@ def missing_round(rd_name):
     return data, data_pts
 
 def scoring_data(scoring_base):
-    """Get player scoring data for each round in tournament
-
-    Args:
-        scoring_base (ResultSet) : set of player tournament rounds. Length
-                            reflects number of rounds played in tournament.
+    """Get player scoring data for each round in tournament.
     
-    Returns:
-        round data containing player id, tourn id, and tourn scoring data
- 
+    Parameters
+    ----------
+    scoring_base : ResultSet 
+        set of player tournament rounds. Length
+        reflects number of rounds played in tournament.
+
+    Returns
+    -------
+    dict
+        round data containing player id, tourn id, and tourn scoring data.
+    
+    Examples
+    --------
+    >>> base = soup.find_all("div", class_="roundSwap active")
+    >>> if base is not None:
+    ...     scorecard_data = scoring_data(base)
     """
 
   
