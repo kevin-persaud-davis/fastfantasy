@@ -43,7 +43,7 @@ class DataAccess():
         self.start = start
 
     def raw(self, save=False):
-        """Run raw api for historical data.
+        """Get raw historical data.
 
 
         Parameters
@@ -73,6 +73,16 @@ class DataAccess():
             return raw_df
 
     def full(self):
+        """Get full historical data.
+
+        Data includes raw + fantasy point mappings.
+
+        Examples
+        --------
+        >>> historical_data = DataAccess(2018)
+        >>> full_df = historical_data.full()
+        >>> full_df.head()
+        """
 
         if self.end is not None:
             f_df = mapper_runner(self.start, self.end)
