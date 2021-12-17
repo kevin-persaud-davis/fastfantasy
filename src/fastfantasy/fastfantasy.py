@@ -1,5 +1,6 @@
+
 from historical_data import parallel_historical_runner, parallel_tournament_data
-from historical_data import DataRunner, merge_tournaments
+from historical_data import clean_up_runner, merge_tournaments
 from draftkings_mappings import mapper_runner
 from tournament import EspnSeason, CleanTournaments
 
@@ -101,7 +102,7 @@ class DataAccess():
 
         parallel_historical_runner(self.start, self.end)
         # add clean up runner 
-
+        clean_up_runner()
 
         if data == "raw":
             return self.raw(save=False)
