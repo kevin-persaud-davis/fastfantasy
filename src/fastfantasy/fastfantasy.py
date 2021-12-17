@@ -1,6 +1,17 @@
 from historical_data import DataRunner, merge_tournaments
 from draftkings_mappings import mapper_runner
 
+
+def full_data(start_season, end_season=None):
+
+    if end_season is not None:
+
+        df = mapper_runner(start_season, end_season)
+    else:
+        df = mapper_runner(start_season)
+
+    return df
+
 def raw_data(start_season, end_season=None, save_data=False):
 
     if save_data:
@@ -28,6 +39,23 @@ class DataAccess():
 
         self.start = start
 
+    def raw(self, save=False):
+        
+        if save:
+            if self.end is not None:
+
+                data_fn = f"hpd_{self.start}_{self.end}.csv"
+            else:
+                data_fn = f"hpd_{self.start}.csv"
+
+            merge_tournaments("*.csv", data_fn)
+        
+        else:
+            data_fn = "hpd.csv"
+            raw_df = merge_tournaments("*.csv", data_fn, save=False)
+        
+            return raw_df
+
     def full(self):
 
         if self.end is not None:
@@ -45,6 +73,10 @@ class DataAccess():
 
         df = id_df.join(dk_df, how="outer")
         return df
+
+    def new_collection_process(start, end=None, data="full"):
+        pass
+
 
 
 def main():
