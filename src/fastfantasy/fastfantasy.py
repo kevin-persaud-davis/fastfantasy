@@ -1,36 +1,8 @@
-
 from historical_data import parallel_historical_runner, parallel_tournament_data
 from historical_data import clean_up_runner, merge_tournaments
 from draftkings_mappings import mapper_runner
 from tournament import EspnSeason, CleanTournaments
 
-
-def full_data(start_season, end_season=None):
-
-    if end_season is not None:
-
-        df = mapper_runner(start_season, end_season)
-    else:
-        df = mapper_runner(start_season)
-
-    return df
-
-def raw_data(start_season, end_season=None, save_data=False):
-
-    if save_data:
-        if end_season is not None:
-
-            data_fn = f"hpd_{start_season}_{end_season}.csv"
-        else:
-            data_fn = f"hpd_{start_season}.csv"
-
-        merge_tournaments("*.csv", data_fn)
-    
-    else:
-        data_fn = "hpd.csv"
-        raw_df = merge_tournaments("*.csv", data_fn, save=False)
-        
-        return raw_df
 
 class DataAccess():
 
@@ -168,15 +140,14 @@ class DataAccess():
 def main():
     
     # option 1. Raw ESPN scorecard data
-    df = raw_data(2018)
+    historical_data = DataAccess(2018)
+    raw_df = historical_data.raw()
 
     # option 2. Raw ESPN scorecard data + DraftKings mappings
-    fantasy_df = mapper_runner(2018)
-    print(fantasy_df.head())
+    full_df = historical_data.full()
 
-    print(df.shape, fantasy_df.shape)
     # option 3. Draftkings mappings
-    
+    fantasy_df = historical_data.fantasy()
     
 
 
