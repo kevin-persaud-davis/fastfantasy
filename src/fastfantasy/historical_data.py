@@ -1091,9 +1091,9 @@ def parallel_tournament_data(tournament_urls):
     """
     futures_list = []
     results = []
-    MAX_WORKERS = 8
-    m_workers = min(MAX_WORKERS, len(tournament_urls))
-    with ProcessPoolExecutor(max_workers=m_workers) as executor:
+    # MAX_WORKERS = 8
+    # m_workers = min(MAX_WORKERS, len(tournament_urls))
+    with ThreadPoolExecutor() as executor:
         for url in tournament_urls:
             futures = executor.submit(write_tournament_data, url)
             futures_list.append(futures)
@@ -1276,7 +1276,10 @@ def parallel_historical_runner(start, end=None):
     tournaments_df["url"] = tournaments_df["tournament_id"].apply(lambda x: base_url + str(x))
 
     urls = tournaments_df["url"].tolist()
-
+    for idx, url in enumerate(urls):
+        if idx % 2 == 0:
+            urls.insert(idx, "https://www.espn.com/golf/")
+            
     results = parallel_tournament_data(urls)
     
     missed_tourns = []
