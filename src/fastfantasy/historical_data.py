@@ -1292,6 +1292,14 @@ def parallel_historical_runner(start, end=None):
 
     return missed_tourns
 
+def find_empty_files(f):
+
+    df = pd.read_csv(f)
+    if df.shape[0] == 0:
+        return f
+    else:
+        return None
+
 def clean_up_runner():
     """Clean up runner for missed tournaments.
 
