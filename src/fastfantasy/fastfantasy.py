@@ -104,11 +104,11 @@ class DataAccess():
 
 
         if data == "raw":
-            self.raw(save=True)
+            return self.raw(save=False)
         elif data == "full":
-            self.full()
+            return self.full()
         elif data == "fantasy":
-            self.fantasy()
+            return self.fantasy()
         else:
             print(f"Please enter one of three data access options.\n")
 
