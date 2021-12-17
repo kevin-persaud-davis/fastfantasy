@@ -1018,7 +1018,6 @@ def fetch_scorecard_data(url):
     tournament.run_tournament_scorecards(url)
 
     player_urls = tournament.player_scorecards
-    print(len(player_urls))
     player_data = [player_scorecard(player) for player in player_urls]
     print("\nNumber of players: ", len(player_data))
     return player_data
@@ -1293,8 +1292,8 @@ def parallel_historical_runner(start, end=None):
 
     return missed_tourns
 
-def clean_up_runner(tournaments):
-    """Clean up runner for tournaments.
+def clean_up_runner():
+    """Clean up runner for missed tournaments.
 
     All tournaments missed from bad server requests in parallel data
     runner are given to get cleaned up.
@@ -1308,9 +1307,19 @@ def clean_up_runner(tournaments):
     --------
     >>> clean_up_runner(urls)
     """
-    for tourn in tournaments:
-        missed_result = write_tournament_data(tourn)
-        print(missed_result)
+    root = Path(path_config.DATA_RAW)
+    files = [PurePath(path, name) for path, subdirs, files in os.walk(root) for name in files]
+
+    empty_files = []
+    for f in files:
+        empty_file = find_empty_files(f)
+        if empty_file is not None:
+            empty_files.append(empty_file)
+    
+    if len(empty_files):
+        for file in empty_files:
+            write_tournament_data(file)
+
 
 def combine_files(root, pattern=None):
     """Combine all files in root path directory.
@@ -1511,8 +1520,11 @@ class MergeTournaments():
 def main():
 
     t_url = "https://www.espn.com/golf/leaderboard?tournamentId=3742"
-    t2_url = "https://www.espn.com/golf/leaderboard?tournamentId=3763"
+    t2_url = "https://www.espn.com/golf/leaderboard?tournamentId=401025247"
     scorecard_url = "https://www.espn.com/golf/player/scorecards/_/id/3448/tournamentId/3742"
+
+    # write_tournament_data(t_url)
+    # write_tournament_data(t2_url)
 
     # merge_tournaments("*.csv", "hpd_2018.csv")
     # m_tourns = parallel_historical_runner(2018)
