@@ -1292,8 +1292,18 @@ def parallel_historical_runner(start, end=None):
 
     return missed_tourns
 
-def find_empty_files(f):
+def find_empty_file(f):
+    """Check if file is empty.
 
+    Parameters
+    ----------
+    f : PurePath 
+        Pure file path.
+
+    Examples
+    --------
+    >>> empty_file = find_empty_file(f)
+    """
     df = pd.read_csv(f)
     if df.shape[0] == 0:
         return f
@@ -1320,7 +1330,7 @@ def clean_up_runner():
 
     empty_files = []
     for f in files:
-        empty_file = find_empty_files(f)
+        empty_file = find_empty_file(f)
         if empty_file is not None:
             empty_files.append(empty_file)
     
