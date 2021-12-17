@@ -92,7 +92,16 @@ class DataAccess():
         return f_df
 
     def fantasy(self):
+        """Get fantasy historical data.
 
+        Data only includes fantasy point mappings.
+
+        Examples
+        --------
+        >>> historical_data = DataAccess(2018)
+        >>> fantasy_df = historical_data.fantasy()
+        >>> fantasy_df.head()
+        """
         df = self.full()
         id_df = df.iloc[:, :3].copy()
         dk_df = df.iloc[:, 150:].copy()
