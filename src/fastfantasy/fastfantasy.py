@@ -1,3 +1,4 @@
+from historical_data import parallel_historical_runner, parallel_tournament_data
 from historical_data import DataRunner, merge_tournaments
 from draftkings_mappings import mapper_runner
 from tournament import EspnSeason, CleanTournaments
@@ -98,9 +99,18 @@ class DataAccess():
         clean_tourn = CleanTournaments(tourn_df)
         clean_tourn.save_cleaned_tournaments(clean_fn)
 
-        
+        parallel_historical_runner(self.start, self.end)
+        # add clean up runner 
 
 
+        if data == "raw":
+            self.raw(save=True)
+        elif data == "full":
+            self.full()
+        elif data == "fantasy":
+            self.fantasy()
+        else:
+            print(f"Please enter one of three data access options.\n")
 
 def main():
     
