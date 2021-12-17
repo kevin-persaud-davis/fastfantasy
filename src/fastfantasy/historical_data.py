@@ -1279,7 +1279,7 @@ def parallel_historical_runner(start, end=None):
     for idx, url in enumerate(urls):
         if idx % 2 == 0:
             urls.insert(idx, "https://www.espn.com/golf/")
-            
+
     results = parallel_tournament_data(urls)
     
     missed_tourns = []
@@ -1389,16 +1389,12 @@ def run_date_transformation(df):
     --------
     >>> transformed_df = run_date_transformation(merged_data)
     """
-    # f_path = str(Path(config.PROCESSED_HISTORICAL_DIR, "hpd_2017_2020.csv"))
-    # historical_data_df = pd.read_csv(f_path)
-
     espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
     espn_tourns_df = pd.read_csv(espn_tourn_path, parse_dates=["tournament_date"])
 
     new_df = tournament_date_col(df, espn_tourns_df)
     return new_df
 
-    # historical_data_df.to_csv(f_path)
 
 def tournament_date_col(df, tournament_df):
     """Create date column through tournament id mapping.
@@ -1457,11 +1453,6 @@ def merge_tournaments(f_pattern, f_name, save=True):
         merged_data = combine_files(f_path, f_pattern)
         transformed_df = run_date_transformation(merged_data)
         return transformed_df
-    # if os.path.isfile(merged_path):
-    #     # file exists so no need for headers
-    #     merged_data.to_csv(merged_path, mode="w", header=False, index=False, date_format="%Y-%m-%d")
-    # # else:
-    #     merged_data.to_csv(merged_path, mode="w", header=True, index=False, date_format="%Y-%m-%d")
 
 class MergeTournaments():
 
@@ -1525,8 +1516,6 @@ class MergeTournaments():
         Args:
             df (pd.DataFrame) : historical player data
         """
-        # f_path = str(Path(config.PROCESSED_HISTORICAL_DIR, "hpd_2017_2020.csv"))
-        # historical_data_df = pd.read_csv(f_path)
 
         espn_tourn_path = (Path(path_config.RAW_TOURNAMENTS, "espn_tournaments_2018.csv"))
         espn_tourns_df = pd.read_csv(espn_tourn_path, date_parser=["tournament_date"])
