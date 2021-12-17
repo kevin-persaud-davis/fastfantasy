@@ -347,6 +347,7 @@ def mapper_runner(start, end=None):
 def main():
     
     fantasy_df = mapper_runner(2018)
+    
 
 if __name__ == "__main__":
     main()
