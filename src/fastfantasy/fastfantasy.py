@@ -110,7 +110,27 @@ class DataAccess():
         return df
 
     def new_collection_process(self, start, end=None, data="full"):
-        
+        """Run full data collection process for historical data.
+
+        data options include {"full", "raw", "fantasy"}.
+
+        Parameters
+        ----------
+        start : int
+            Start season.
+
+        end : int, optional
+            End season.
+
+        data : str,
+            Historical data type.
+
+        Examples
+        --------
+        >>> historical_data = DataAccess(2018)
+        >>> df = historical_data.new_collection_process(2016, 2018, "full")
+        >>> df.head()
+        """
         if end is not None:
             self.end = end
         else:
