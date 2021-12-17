@@ -43,7 +43,20 @@ class DataAccess():
         self.start = start
 
     def raw(self, save=False):
-        
+        """Run raw api for historical data.
+
+
+        Parameters
+        ----------
+        save : bool, optional 
+            If False, return raw data. Otherwise save 
+            data to disk.
+
+        Examples
+        --------
+        >>> historical_data = DataAccess(2018)
+        >>> raw_df = historical_data.raw()
+        """
         if save:
             if self.end is not None:
 
