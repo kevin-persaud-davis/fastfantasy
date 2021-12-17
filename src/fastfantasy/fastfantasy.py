@@ -1,5 +1,6 @@
 from historical_data import DataRunner, merge_tournaments
 from draftkings_mappings import mapper_runner
+from tournament import EspnSeason, CleanTournaments
 
 
 def full_data(start_season, end_season=None):
@@ -74,8 +75,30 @@ class DataAccess():
         df = id_df.join(dk_df, how="outer")
         return df
 
-    def new_collection_process(start, end=None, data="full"):
-        pass
+    def new_collection_process(self, start, end=None, data="full"):
+        
+        if end is not None:
+            self.end = end
+        else:
+            self.end = None
+        self.start = start
+
+        e_season = EspnSeason(self.start, self.end)
+    
+        e_season.retrieve_all_seasons()
+
+        tourn_df = e_season.feed_season_data()
+
+        if e_season.end is not None:
+            clean_end = e_season.end
+            clean_fn = f"valid_tournaments_{e_season.start}_{clean_end}.csv"
+        else:
+            clean_fn = f"valid_tournaments_{e_season.start}.csv"
+
+        clean_tourn = CleanTournaments(tourn_df)
+        clean_tourn.save_cleaned_tournaments(clean_fn)
+
+        
 
 
 
